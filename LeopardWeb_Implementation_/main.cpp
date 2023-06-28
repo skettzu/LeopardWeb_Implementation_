@@ -5,6 +5,10 @@
 
 using namespace std;
 
+/*
+Need to add another check for the password ensuring password matches username row
+*/
+
 static int callback(void* data, int argc, char** argv, char** azColName)
 {
 	int i;
@@ -20,7 +24,7 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 }
 
 int check_credential(sqlite3* LW_DB, string usr, string pwd) {
-	string query = "SELECT 1 FROM CREDENTIAL WHERE Username = '" + usr + "';";
+	string query = "SELECT 1 FROM CREDENTIAL WHERE Username = '" + usr + "';";	// SQL statement selecting 1 and inserting into result set if username is found else select 0
 	sqlite3_stmt* stmt;
 	int result;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -42,7 +46,7 @@ int check_credential(sqlite3* LW_DB, string usr, string pwd) {
 		return 0;
 	}
 
-	query = ("SELECT 1 FROM CREDENTIAL WHERE Password = '" + pwd + "';");
+	query = ("SELECT 1 FROM CREDENTIAL WHERE Password = '" + pwd + "';");	// SQL statement selecting 1 and inserting into result set if password is found else select 0
 
 	rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
 	if (rc != SQLITE_OK) {
@@ -66,6 +70,7 @@ int check_credential(sqlite3* LW_DB, string usr, string pwd) {
 	}
 
 }
+
 int main() {
 	// Database 
 	sqlite3* LW_DB;
@@ -87,7 +92,7 @@ int main() {
 	cin >> username;
 	cout << "Password: ";
 	cin >> pwd;
-	check_credential(LW_DB, username, pwd);
+	check_credential(LW_DB, username, pwd);	// check credential using sqlite3_column_int()
 
 	return 0;
 }
