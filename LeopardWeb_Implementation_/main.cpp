@@ -18,6 +18,54 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 
 	return 0;
 }
+
+int check_credential(sqlite3* LW_DB, string usr, string pwd) {
+	string query = "SELECT 1 FROM CREDENTIAL WHERE Username = '" + usr + "';";
+	sqlite3_stmt* stmt;
+	int result;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;
+		return 0;
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Incorrect Username or Password" << endl;
+		return 0;
+	}
+
+	int count = sqlite3_column_int(stmt, 0); // Get the count from the result set
+	if (count > 0) {
+	}
+	else {
+		cout << "Incorrect Username or Password" << endl;
+		return 0;
+	}
+
+	query = ("SELECT 1 FROM CREDENTIAL WHERE Password = '" + pwd + "';");
+
+	rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;
+		return 0;
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Incorrect Username or Password" << endl;
+		return 0;
+	}
+
+	count = sqlite3_column_int(stmt, 0); // Get the count from the result set
+	if (count > 0) {
+		cout << "Welcome to LeopardWeb!" << endl;
+		return 1;
+	}
+	else {
+		cout << "Incorrect Username or Password" << endl;
+		return 0;
+	}
+
+}
 int main() {
 	// Database 
 	sqlite3* LW_DB;
@@ -31,7 +79,6 @@ int main() {
 		cout << "open success" << endl;
 	}
 	char* messageError;
-	string query;
 	// Login Screen
 	string username;
 	string pwd;
@@ -40,24 +87,8 @@ int main() {
 	cin >> username;
 	cout << "Password: ";
 	cin >> pwd;
-	query = ("SELECT EXISTS(SELECT Username FROM CREDENTIAL WHERE Username = '" + username + "';)");
-	//query = ("SELECT Username FROM CREDENTIAL WHERE Username = '" + username + "';");
-	cout << query << endl;
-	exit = sqlite3_exec(LW_DB, query.c_str(), callback, NULL, &messageError);
-	if (exit != 0) {
-		cout << "Incorrect Username" << endl;
-		sqlite3_free(messageError);
-	}
-	else cout << "Correct Username" << endl; 
-	query = ("SELECT Password FROM CREDENTIAL WHERE Password = '" + pwd + "';");
-	cout << query << endl;
-	exit = sqlite3_exec(LW_DB, query.c_str(), callback, NULL, &messageError);
-	if (exit != SQLITE_OK) {
-		cout << "Incorrect Password" << endl;
-		sqlite3_free(messageError);
-	}
-	else cout << "Correct Password" << endl;
-	
-	
+	check_credential(LW_DB, username, pwd);
+
 	return 0;
 }
+
