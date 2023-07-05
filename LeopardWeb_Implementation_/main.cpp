@@ -58,6 +58,7 @@ int check_credential(sqlite3* LW_DB, string usr, string pwd) {
 
 	count = sqlite3_column_int(stmt, 0); // Get the count from the result set
 	if (count > 0) {
+		// print welcome statement
 		cout << "Welcome ";
 		query = ("SELECT Firstname FROM CREDENTIAL WHERE Username = '" + usr + "';");
 		rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -70,7 +71,7 @@ int check_credential(sqlite3* LW_DB, string usr, string pwd) {
 			cout << "Cannot compile statement" << endl;
 			return 0;
 		}
-		cout << sqlite3_column_text(stmt, 0);	// get resulting text from result set
+		cout << sqlite3_column_text(stmt, 0);	// get resulting name from result set
 		cout << " to LeopardWeb!" << endl;
 		return 1;
 	}
