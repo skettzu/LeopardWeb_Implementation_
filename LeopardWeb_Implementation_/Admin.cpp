@@ -1,29 +1,92 @@
 #include "Admin.h"
-#include <iostream>
 
-using namespace std;
+using std::endl;
 
-void Admin::add_course() {
-	cout << "Add course to the system has been called" << endl;
+static int callback(void* data, int argc, char** argv, char** azColName)
+{
+	int i;
+
+	for (i = 0; i < argc; i++)
+	{
+		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+	}
+
+	printf("\n");
+
+	return 0;
 }
-void Admin::remove_course() {
-	cout << "Remove course from the system has been called" << endl;
+
+// constructor
+
+Admin::Admin() {
+	first_name = "Bob";
+	last_name = "Smith";
+	ID = 0000;
 }
-void Admin::add_user() {
-	cout << "Add user has been called" << endl;
+
+Admin::Admin(string first) {
+	first_name = first;
+	last_name = "Smith";
+	ID = 0000;
 }
-void Admin::remove_user() {
-	cout << "Remove user has been called" << endl;
+
+Admin::Admin(string first, string last) {
+	first_name = first;
+	last_name = last;
+	ID = 0000;
 }
-void Admin::add_student() {
-	cout << "Add student has been called" << endl;
+
+Admin::Admin(string first, string last, int in_ID) {
+	first_name = first;
+	last_name = last;
+	ID = in_ID;
 }
-void Admin::remove_student() {
-	cout << "Remove student has been called" << endl;
+
+// method
+
+void Admin::addCourse(sqlite3* DB, int CRN, string Title, string Dept, int Time, string Day, string Sem, int yr, int cred) {
+	string query = "INSERT INTO COURSES (" + std::to_string(CRN) + ", " + Title + ", " + Dept + ", "
+		+ std::to_string(Time) + ", " + Day + ", " + Sem + ", " + std::to_string(yr) + ", " + std::to_string(cred) + ");";	// Create Query to Add to Course to DB
+	int exit = sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);	// Execute the Query
+	if (exit != SQLITE_OK) {
+		cout << "Insert Error: " << sqlite3_errmsg(DB) << endl;
+	}
+	else {
+		cout << "Added Course Successfully!" << endl;
+	}
 }
-void Admin::search_print_roster() {
-	cout << "Search and print roseter has been called" << endl;
+void Admin::removeCourse(sqlite3* DB, int CRN) {
+	string query = "DELETE FROM COURSES WHERE CRN = " + std::to_string(CRN);	// Create Query to Remove Course from DB
+	int exit = sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);	// Execute the Query
+	if (exit != SQLITE_OK) {
+		cout << "Delete Error: " << sqlite3_errmsg(DB) << endl;
+	}
+	else {
+		cout << "Removed Course Successfully!" << endl;
+	}
 }
-void Admin::search_print_course() {
-	cout << "Search and print course has been called" << endl;
+void Admin::addUser() {
+	cout << "Admin's addUser has been called" << endl;
+}
+void Admin::removeUser() {
+	cout << "Admin's removeUser has been called" << endl;
+}
+void Admin::addStudent() {
+	cout << "Admin's addStudent has been called" << endl;
+}
+void Admin::removeStudent() {
+	cout << "Admin's removeStudent has been called" << endl;
+}
+void Admin::searchRoster() {
+	cout << "Admin's searchRoster has been called" << endl;
+}
+void Admin::printCourses() {
+	cout << "Admin's printCourse has been called" << endl;
+}
+
+
+// destructor
+
+Admin::~Admin() {
+
 }

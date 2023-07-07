@@ -1,13 +1,24 @@
 #pragma once
 #include "User.h"
+
 class Instructor :
-    public User
-{
+	public User {
+	// attributes
+
 public:
-    Instructor();
+	// construstor
 
-    virtual void print_schedule();
-    void print_classlist();
-    void search_course();
+	Instructor();
+	Instructor(string first);
+	Instructor(string first, string last);
+	Instructor(string first, string last, int ID);
+
+	// method
+	void printSchedule();
+	void printClassList();
+	void searchCourse();
+
+	// destructor
+	~Instructor();
+
 };
-

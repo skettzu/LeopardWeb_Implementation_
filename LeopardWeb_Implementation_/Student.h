@@ -1,15 +1,25 @@
 #pragma once
-#include "user.h"
+#include "User.h"
 
 class Student :
-    public User
-{
+	public User {
+
 public:
-    Student();
+	// constructor
 
-    void search_course();
-    void add_course();
-    void drop_course();
-    void print_schedule();
+	Student();
+	Student(string first);
+	Student(string first, string last);
+	Student(string first, string last, int ID);
+
+	// method
+	void searchCourse();
+	void addCourse();
+	void dropCourse();
+	void printSchedule();
+
+	//destructor
+	~Student();
+
+
 };
-

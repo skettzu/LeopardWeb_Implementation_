@@ -1,25 +1,34 @@
 #pragma once
+#include <iostream>
 #include <string>
+#include <sqlite3.h>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::string;
 
-class User
-{
+class User {
 protected:
-	int id;
+	// attributes
 	string first_name;
 	string last_name;
+	int ID;
 public:
+	// Constructor
+
 	User();
-	User(int in_id, string f_name, string l_name);
+	User(string first);
+	User(string first, string last);
+	User(string first, string last, int ID);
 
-	void set_id(int in_id);
-	void set_fname(string f_name);
-	void set_lname(string l_name);
+	// Method
 
-	void print_all();
+	void setFirstName(string first);
+	void setLastName(string last);
+	void setID(int ID);
+	void printAllInfo();
 
+	// Destructor
 	~User();
-	
-};
 
+};

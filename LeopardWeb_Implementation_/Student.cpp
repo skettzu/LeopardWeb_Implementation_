@@ -1,21 +1,49 @@
 #include "Student.h"
-#include <iostream>
 
-using namespace std;
+using std::endl;
+
+// constructor
 
 Student::Student() {
-
+	first_name = "Bob";
+	last_name = "Smith";
+	ID = 0000;
 }
 
-void Student::search_course() {
-	cout << "Search course function has beed called" << endl;
+Student::Student(string first) {
+	first_name = first;
+	last_name = "Smith";
+	ID = 0000;
 }
-void Student::add_course() {
-	cout << "Add course function has been called" << endl;
+
+Student::Student(string first, string last) {
+	first_name = first;
+	last_name = last;
+	ID = 0000;
 }
-void Student::drop_course() {
-	cout << "Drop course function has been called" << endl;
+
+Student::Student(string first, string last, int in_ID) {
+	first_name = first;
+	last_name = last;
+	ID = in_ID;
 }
-void Student::print_schedule() {
-	cout << "Print schedule function has been called" << endl;
+
+// method
+
+void Student::searchCourse() {
+	cout << "Student's searchCourse has been called" << endl;
+}
+void Student::addCourse() {
+	cout << "Student's addCourse has been called" << endl;
+}
+void Student::dropCourse() {
+	cout << "Student's dropCourse has been called" << endl;
+}
+void Student::printSchedule() {
+	cout << "Student's printSchedule has been called" << endl;
+}
+// destructor
+
+Student::~Student() {
+
 }
