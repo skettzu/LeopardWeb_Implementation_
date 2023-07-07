@@ -60,7 +60,6 @@ int check_credential(sqlite3* LW_DB, string usr, string pwd) {
 	}
 
 }
-
 static int check_class(sqlite3* LW_DB, string usr) {
 	/*
 	Returned values as follows:
@@ -109,6 +108,65 @@ static int check_class(sqlite3* LW_DB, string usr) {
 		return 3;
 	}
 }
+string get_fname(sqlite3* LW_DB, string usr) {
+	string query = "SELECT Firstname FROM CREDENTIAL WHERE Username = " + usr + ";";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "User Doesn't exist" << endl;	// Check if User exists
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
+string get_lname(sqlite3* LW_DB, string usr) {
+	string query = "SELECT Lastname FROM CREDENTIAL WHERE Username = " + usr + ";";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "User Doesn't exist" << endl;	// Check if User exists
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
+int get_WID(sqlite3* LW_DB, string usr) {
+	string query = "SELECT WID FROM CREDENTIAL WHERE Username = " + usr + ";";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "User Doesn't exist" << endl;	// Check if User exists
+	}
+	int result = sqlite3_column_int(stmt, 0);	// grab WID from resulting table
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result; 
+}
 int main() {
 	// Database 
 	sqlite3* LW_DB;
@@ -134,6 +192,7 @@ int main() {
 		return 0;
 	}
 	// display menu according to User Type
+	int user_input;
 	if (check_class(LW_DB, username) == 1) {	// Instructor Menu
 		cout << "1. Add Course to Semester Schedule" << endl;
 		cout << "2. Remove Course to Semester Schedule" << endl;
@@ -141,13 +200,45 @@ int main() {
 		cout << "4. Search All Courses" << endl;
 		cout << "5. Search Course Based on Parameter" << endl;
 		cout << "6. Logout" << endl;
+		cin >> user_input;
+		switch (user_input) {
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		}
 	}
 	else if (check_class(LW_DB, username) == 2) {		// Admin Menu
+		string fname = get_fname(LW_DB, username);
+		string lname = get_lname(LW_DB, username);
+		int WID = get_WID(LW_DB, username);
+		Admin user(fname, lname, WID);
 		cout << "1. Add Course from System" << endl;
 		cout << "2. Remove Course from System" << endl;
 		cout << "3. Search All Courses" << endl;
 		cout << "4. Search Course Based on Parameter" << endl;
 		cout << "5. Logout" << endl;
+		cin >> user_input;
+		switch (user_input) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+		}
 	}
 	else if (check_class(LW_DB, username) == 3) {		// Student Menu
 		cout << "1. Add Course to Semester Schedule" << endl;
@@ -155,6 +246,19 @@ int main() {
 		cout << "3. Search All Courses" << endl;
 		cout << "4. Search Course Based on Parameter" << endl;
 		cout << "5. Logout" << endl;
+		cin >> user_input;
+		switch (user_input) {
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		}
 	}
 	else {
 		return 0;
