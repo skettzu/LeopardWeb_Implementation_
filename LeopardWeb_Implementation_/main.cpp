@@ -109,7 +109,7 @@ static int check_class(sqlite3* LW_DB, string usr) {
 	}
 }
 string get_fname(sqlite3* LW_DB, string usr) {
-	string query = "SELECT Firstname FROM CREDENTIAL WHERE Username = " + usr + ";";	// SQL statement selecting User's first name
+	string query = "SELECT Firstname FROM CREDENTIAL WHERE Username = '" + usr + "';";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
 	if (rc != SQLITE_OK) {
@@ -131,7 +131,7 @@ string get_fname(sqlite3* LW_DB, string usr) {
 	return result;
 }
 string get_lname(sqlite3* LW_DB, string usr) {
-	string query = "SELECT Lastname FROM CREDENTIAL WHERE Username = " + usr + ";";	// SQL statement selecting User's first name
+	string query = "SELECT Lastname FROM CREDENTIAL WHERE Username = '" + usr + "';";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
 	if (rc != SQLITE_OK) {
@@ -153,7 +153,7 @@ string get_lname(sqlite3* LW_DB, string usr) {
 	return result;
 }
 int get_WID(sqlite3* LW_DB, string usr) {
-	string query = "SELECT WID FROM CREDENTIAL WHERE Username = " + usr + ";";	// SQL statement selecting User's first name
+	string query = "SELECT WID FROM CREDENTIAL WHERE Username = '" + usr + "';";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
 	if (rc != SQLITE_OK) {
