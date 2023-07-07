@@ -63,7 +63,7 @@ int check_credential(sqlite3* LW_DB, string usr, string pwd) {
 static int check_class(sqlite3* LW_DB, string usr) {
 	/*
 	Returned values as follows:
-	Instructor is 1 
+	Instructor is 1
 	Admin is 2
 	Student is 3
 	*/
@@ -76,7 +76,7 @@ static int check_class(sqlite3* LW_DB, string usr) {
 		return 0;
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
-	
+
 	int count = sqlite3_column_int(stmt, 0); // Get the count from the result set
 	if (count > 0) {
 		return 1;
@@ -102,7 +102,7 @@ static int check_class(sqlite3* LW_DB, string usr) {
 		return 0;
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
-	
+
 	count = sqlite3_column_int(stmt, 0); // Get the count from the result set
 	if (count > 0) {
 		return 3;
@@ -165,8 +165,48 @@ int get_WID(sqlite3* LW_DB, string usr) {
 	}
 	int result = sqlite3_column_int(stmt, 0);	// grab WID from resulting table
 	sqlite3_finalize(stmt); // Finalize the statement
-	return result; 
+	return result;
 }
+
+void search_by_parameter(sqlite3* LW_DB) {
+	int exit = 1;
+	cout << "Enter parameter to seach course: ";
+	string user_parameter;
+	cin >> user_parameter;
+	cin.ignore();
+	//string search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "';");
+	//string search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "' OR CRN = " + user_parameter + " OR time = " + user_parameter + " OR year = " + user_parameter + " OR credits = " + user_parameter + "; ");
+	//search for integer parameter
+	string search_parameter = ("SELECT * FROM COURSES WHERE CRN = " + user_parameter + " OR time = " + user_parameter + " OR year = " + user_parameter + " OR credits = " + user_parameter + "; ");
+	//cout << search_parameter << endl;
+	exit = sqlite3_exec(LW_DB, search_parameter.c_str(), callback, NULL, NULL);
+
+	if (exit != SQLITE_OK) {
+		//cout << "Search Error" << endl;
+		//search for string parameter
+		search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "';");
+		//cout << search_parameter << endl;
+		exit = sqlite3_exec(LW_DB, search_parameter.c_str(), callback, NULL, NULL);
+		/*
+		if (exit != SQLITE_OK) {
+			cout << "Search Error" << endl;
+		}
+		else cout << "Search Success" << endl;
+		*/
+	}
+	//else cout << "Search Success" << endl;
+}
+
+void search_all(sqlite3* LW_DB) {
+	int exit = 1;
+	string searchall = "SELECT * FROM COURSES;";
+	exit = sqlite3_exec(LW_DB, searchall.c_str(), callback, NULL, NULL);
+	if (exit != SQLITE_OK) {
+		cout << "Search Error" << endl;
+	}
+	else cout << "Search Success" << endl;
+}
+
 int main() {
 	// Database 
 	sqlite3* LW_DB;
@@ -192,42 +232,17 @@ int main() {
 		return 0;
 	}
 	// display menu according to User Type
-	int user_input;
-	if (check_class(LW_DB, username) == 1) {	// Instructor Menu
-		cout << "1. Add Course to Semester Schedule" << endl;
-		cout << "2. Remove Course to Semester Schedule" << endl;
-		cout << "3. Assemble and Print Course Roster" << endl;
-		cout << "4. Search All Courses" << endl;
-		cout << "5. Search Course Based on Parameter" << endl;
-		cout << "6. Logout" << endl;
-		cin >> user_input;
-		switch (user_input) {
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		}
-	}
-	else if (check_class(LW_DB, username) == 2) {		// Admin Menu
-		string fname = get_fname(LW_DB, username);
-		string lname = get_lname(LW_DB, username);
-		int WID = get_WID(LW_DB, username);
-		Admin user(fname, lname, WID);
-		cout << "1. Add Course from System" << endl;
-		cout << "2. Remove Course from System" << endl;
-		cout << "3. Search All Courses" << endl;
-		cout << "4. Search Course Based on Parameter" << endl;
-		cout << "5. Logout" << endl;
-		cin >> user_input;
-		switch (user_input) {
+	int user_input = 10;
+	while (1) {
+		if (check_class(LW_DB, username) == 1) {	// Instructor Menu
+			cout << "1. Add Course to Semester Schedule" << endl;
+			cout << "2. Remove Course to Semester Schedule" << endl;
+			cout << "3. Assemble and Print Course Roster" << endl;
+			cout << "4. Search All Courses" << endl;
+			cout << "5. Search Course Based on Parameter" << endl;
+			cout << "6. Logout" << endl;
+			cin >> user_input;
+			switch (user_input) {
 			case 1:
 				break;
 			case 2:
@@ -235,33 +250,66 @@ int main() {
 			case 3:
 				break;
 			case 4:
+				search_all(LW_DB);
+				break;
+			case 5:
+				search_by_parameter(LW_DB);
+				break;
+			case 6:
+				break;
+			}
+		}
+		else if (check_class(LW_DB, username) == 2) {		// Admin Menu
+			string fname = get_fname(LW_DB, username);
+			string lname = get_lname(LW_DB, username);
+			int WID = get_WID(LW_DB, username);
+			Admin user(fname, lname, WID);
+			cout << "1. Add Course from System" << endl;
+			cout << "2. Remove Course from System" << endl;
+			cout << "3. Search All Courses" << endl;
+			cout << "4. Search Course Based on Parameter" << endl;
+			cout << "5. Logout" << endl;
+			cin >> user_input;
+			switch (user_input) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				search_all(LW_DB);
+				break;
+			case 4:
+				search_by_parameter(LW_DB);
 				break;
 			case 5:
 				break;
+			}
 		}
-	}
-	else if (check_class(LW_DB, username) == 3) {		// Student Menu
-		cout << "1. Add Course to Semester Schedule" << endl;
-		cout << "2. Remove Course to Semester Schedule" << endl;
-		cout << "3. Search All Courses" << endl;
-		cout << "4. Search Course Based on Parameter" << endl;
-		cout << "5. Logout" << endl;
-		cin >> user_input;
-		switch (user_input) {
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
+		else if (check_class(LW_DB, username) == 3) {		// Student Menu
+			cout << "1. Add Course to Semester Schedule" << endl;
+			cout << "2. Remove Course to Semester Schedule" << endl;
+			cout << "3. Search All Courses" << endl;
+			cout << "4. Search Course Based on Parameter" << endl;
+			cout << "5. Logout" << endl;
+			cin >> user_input;
+			switch (user_input) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				search_all(LW_DB);
+				break;
+			case 4:
+				search_by_parameter(LW_DB);
+				break;
+			case 5:
+				break;
+			}
 		}
-	}
-	else {
-		return 0;
+		else {
+			return 0;
+		}
 	}
 	return 0;
 }
