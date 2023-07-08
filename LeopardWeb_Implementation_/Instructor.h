@@ -19,6 +19,7 @@ public:
 	void searchByParameter(sqlite3* DB);
 	void addCourse(sqlite3* DB);
 	void dropCourse(sqlite3* DB);
+	void printRoster(sqlite3* DB);
 	void printSchedule();
 	void printClassList();
 

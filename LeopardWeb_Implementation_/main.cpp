@@ -214,10 +214,13 @@ int main() {
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
+				instructor.addCourse(LW_DB);
 				break;
 			case 2:
+				instructor.dropCourse(LW_DB);
 				break;
 			case 3:
+				instructor.printRoster(LW_DB);
 				break;
 			case 4:
 				instructor.searchAllCourse(LW_DB);

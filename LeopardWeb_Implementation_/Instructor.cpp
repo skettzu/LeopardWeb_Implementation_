@@ -119,6 +119,18 @@ void Instructor::dropCourse(sqlite3* DB) {
 	else cout << "Delete Success" << endl;
 }
 
+void Instructor::printRoster(sqlite3* DB) {
+	//cout << "Student's dropCourse has been called" << endl;
+	int exit = 1;
+	string user_crn;
+	string print_roster = "SELECT * FROM STUDENT_SCHEDULE;";
+	exit = sqlite3_exec(DB, print_roster.c_str(), callback, NULL, NULL);
+	if (exit != SQLITE_OK) {
+		cout << "Print Failed" << endl;
+	}
+	else cout << "Print Success" << endl;
+}
+
 // destructor
 
 Instructor::~Instructor() {
