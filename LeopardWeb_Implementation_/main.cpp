@@ -2,7 +2,10 @@
 #include <sqlite3.h>
 #include <string>
 #include <stdio.h>
-#include "Admin.h", "Student.h", "Instructor.h", "User.h"
+#include "Admin.h"
+#include "Student.h"
+#include "Instructor.h"
+#include "User.h"
 
 using namespace std;
 
