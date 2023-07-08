@@ -197,6 +197,11 @@ int main() {
 	int user_input = 10;
 	while (1) {
 		if (check_class(LW_DB, username) == 1) {	// Instructor Menu
+			string fname = get_fname(LW_DB, username);
+			string lname = get_lname(LW_DB, username);
+			int WID = get_WID(LW_DB, username);
+			Instructor instructor(fname, lname, WID);
+
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Assemble and Print Course Roster" << endl;
@@ -212,10 +217,10 @@ int main() {
 			case 3:
 				break;
 			case 4:
-				
+				instructor.searchAllCourse(LW_DB);
 				break;
 			case 5:
-				
+				instructor.searchByParameter(LW_DB);
 				break;
 			case 6:
 				sqlite3_close(LW_DB); // close the database
@@ -246,7 +251,6 @@ int main() {
 				cin.ignore();
 				getline(cin, in_course);	
 				user.addCourse(LW_DB, in_course);
-
 				break;
 			case 2:
 				int rem_CRN;
@@ -255,10 +259,10 @@ int main() {
 				user.removeCourse(LW_DB, rem_CRN);
 				break;
 			case 3:
-				search_all(LW_DB);
+				user.searchAllCourse(LW_DB);
 				break;
 			case 4:
-				search_by_parameter(LW_DB);
+				user.searchByParameter(LW_DB);
 				break;
 			case 5:
 				sqlite3_close(LW_DB); // close the database
