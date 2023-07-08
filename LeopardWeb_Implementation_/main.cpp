@@ -256,6 +256,9 @@ int main() {
 				search_by_parameter(LW_DB);
 				break;
 			case 6:
+				sqlite3_close(LW_DB); // close the database
+				cout << "Logged out!" << endl;
+				return 0;
 				break;
 			}
 		}
@@ -296,6 +299,9 @@ int main() {
 				search_by_parameter(LW_DB);
 				break;
 			case 5:
+				sqlite3_close(LW_DB); // close the database
+				cout << "Logged out!" << endl;
+				return 0;
 				break;
 			}
 		}
@@ -318,6 +324,9 @@ int main() {
 				search_by_parameter(LW_DB);
 				break;
 			case 5:
+				sqlite3_close(LW_DB); // close the database
+				cout << "Logged out!" << endl;
+				return 0;
 				break;
 			}
 		}
