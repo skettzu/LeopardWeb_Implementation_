@@ -264,6 +264,8 @@ int main() {
 			string lname = get_lname(LW_DB, username);
 			int WID = get_WID(LW_DB, username);
 			Admin user(fname, lname, WID);
+			string in_course;
+			
 			cout << "1. Add Course from System" << endl;
 			cout << "2. Remove Course from System" << endl;
 			cout << "3. Search All Courses" << endl;
@@ -272,8 +274,20 @@ int main() {
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
+				int in_CRN, in_Time, in_yr, in_cred;
+				char in_Title, in_Day, in_Dept, in_Sem;
+				cout << "What is the CRN, 'Title', 'Department', Time, 'Day', 'Semester', year, credit for your course?" << endl;
+				cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
+				cin.ignore();
+				getline(cin, in_course);	
+				user.addCourse(LW_DB, in_course);
+
 				break;
 			case 2:
+				int rem_CRN;
+				cout << "What is the CRN of the course you would like to remove?" << endl;
+				cin >> rem_CRN;
+				user.removeCourse(LW_DB, rem_CRN);
 				break;
 			case 3:
 				search_all(LW_DB);

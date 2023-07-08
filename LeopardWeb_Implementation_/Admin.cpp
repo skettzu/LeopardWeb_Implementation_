@@ -44,9 +44,8 @@ Admin::Admin(string first, string last, int in_ID) {
 
 // method
 
-void Admin::addCourse(sqlite3* DB, int CRN, string Title, string Dept, int Time, string Day, string Sem, int yr, int cred) {
-	string query = "INSERT INTO COURSES (" + std::to_string(CRN) + ", " + Title + ", " + Dept + ", "
-		+ std::to_string(Time) + ", " + Day + ", " + Sem + ", " + std::to_string(yr) + ", " + std::to_string(cred) + ");";	// Create Query to Add to Course to DB
+void Admin::addCourse(sqlite3* DB, string course) {
+	string query = "INSERT INTO COURSES VALUES(" + course + ");";	// Create Query to Add to Course to DB
 	int exit = sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);	// Execute the Query
 	if (exit != SQLITE_OK) {
 		cout << "Insert Error: " << sqlite3_errmsg(DB) << endl;
