@@ -200,10 +200,10 @@ int main() {
 	int user_input = 10;
 	while (1) {
 		if (check_class(LW_DB, username) == 1) {	// Instructor Menu
-			string fname = get_fname(LW_DB, username);
-			string lname = get_lname(LW_DB, username);
-			int WID = get_WID(LW_DB, username);
-			Instructor instructor(fname, lname, WID);
+			string fname = get_fname(LW_DB, username); //get first name of the instructor
+			string lname = get_lname(LW_DB, username); //get last name of the instructor
+			int WID = get_WID(LW_DB, username); // get WID of the instructor
+			Instructor instructor(fname, lname, WID); //create an instructor object
 
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
@@ -214,21 +214,27 @@ int main() {
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
+				//call add course method for instructor
 				instructor.addCourse(LW_DB);
 				break;
 			case 2:
+				//call droup course method for instructor
 				instructor.dropCourse(LW_DB);
 				break;
 			case 3:
+				//call instructor's print roster method
 				instructor.printRoster(LW_DB);
 				break;
 			case 4:
+				//instructor search all course
 				instructor.searchAllCourse(LW_DB);
 				break;
 			case 5:
+				//instructor search course by parameter
 				instructor.searchByParameter(LW_DB);
 				break;
 			case 6:
+				//log out
 				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
 				return 0;
@@ -236,10 +242,10 @@ int main() {
 			}
 		}
 		else if (check_class(LW_DB, username) == 2) {		// Admin Menu
-			string fname = get_fname(LW_DB, username);
-			string lname = get_lname(LW_DB, username);
-			int WID = get_WID(LW_DB, username);
-			Admin user(fname, lname, WID);
+			string fname = get_fname(LW_DB, username); //get first name of admin
+			string lname = get_lname(LW_DB, username); //get last name of admin
+			int WID = get_WID(LW_DB, username);  //get WID of admin
+			Admin user(fname, lname, WID); //create admin object
 			string in_course;
 			
 			cout << "1. Add Course from System" << endl;
@@ -265,12 +271,15 @@ int main() {
 				user.removeCourse(LW_DB, rem_CRN);
 				break;
 			case 3:
+				//admin search and print all course
 				user.searchAllCourse(LW_DB);
 				break;
 			case 4:
+				//admin search and print course by parameter
 				user.searchByParameter(LW_DB);
 				break;
 			case 5:
+				//log out
 				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
 				return 0;
@@ -278,11 +287,11 @@ int main() {
 			}
 		}
 		else if (check_class(LW_DB, username) == 3) {		// Student Menu
-			string fname = get_fname(LW_DB, username);
-			string lname = get_lname(LW_DB, username);
-			int WID = get_WID(LW_DB, username);
+			string fname = get_fname(LW_DB, username); // get student first name
+			string lname = get_lname(LW_DB, username); //get student last name
+			int WID = get_WID(LW_DB, username); //get student WID
 			//cout << fname << " " << lname << " " << WID << endl;
-			Student student(fname, lname, WID);
+			Student student(fname, lname, WID); //create student object
 
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
@@ -292,18 +301,23 @@ int main() {
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
+				//student add course to schedule
 				student.addCourse(LW_DB);
 				break;
 			case 2:
+				//student drop course from schedule
 				student.dropCourse(LW_DB);
 				break;
 			case 3:
+				//student search all course
 				student.searchAllCourse(LW_DB);
 				break;
 			case 4:
+				//student search course by parameter
 				student.searchByParameter(LW_DB);
 				break;
 			case 5:
+				//log out
 				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
 				return 0;
