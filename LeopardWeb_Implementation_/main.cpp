@@ -24,7 +24,7 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 	return 0;
 }
 
-int check_credential(sqlite3* LW_DB, string usr, string pwd) {
+int check_credential(sqlite3* LW_DB, string usr, string pwd) {	// By Derek
 	string query = "SELECT 1 FROM CREDENTIAL WHERE (Username = '" + usr + "' AND Password = '" + pwd + "'); ";	// SQL statement selecting 1 if there is the username + pwd combo
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -63,7 +63,7 @@ int check_credential(sqlite3* LW_DB, string usr, string pwd) {
 	}
 
 }
-static int check_class(sqlite3* LW_DB, string usr) {
+static int check_class(sqlite3* LW_DB, string usr) {	// By Derek
 	/*
 	Returned values as follows:
 	Instructor is 1
@@ -111,7 +111,7 @@ static int check_class(sqlite3* LW_DB, string usr) {
 		return 3;
 	}
 }
-string get_fname(sqlite3* LW_DB, string usr) {
+string get_fname(sqlite3* LW_DB, string usr) {	// By Derek
 	string query = "SELECT Firstname FROM CREDENTIAL WHERE Username = '" + usr + "';";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -133,7 +133,7 @@ string get_fname(sqlite3* LW_DB, string usr) {
 	sqlite3_finalize(stmt); // Finalize the statement
 	return result;
 }
-string get_lname(sqlite3* LW_DB, string usr) {
+string get_lname(sqlite3* LW_DB, string usr) {	// By Derek
 	string query = "SELECT Lastname FROM CREDENTIAL WHERE Username = '" + usr + "';";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -155,7 +155,7 @@ string get_lname(sqlite3* LW_DB, string usr) {
 	sqlite3_finalize(stmt); // Finalize the statement
 	return result;
 }
-int get_WID(sqlite3* LW_DB, string usr) {
+int get_WID(sqlite3* LW_DB, string usr) {	// By Derek
 	string query = "SELECT WID FROM CREDENTIAL WHERE Username = '" + usr + "';";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -234,7 +234,7 @@ int main() {
 				instructor.searchByParameter(LW_DB);
 				break;
 			case 6:
-				//log out
+				//log out	// By Derek
 				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
 				return 0;
@@ -256,7 +256,7 @@ int main() {
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
-				int in_CRN, in_Time, in_yr, in_cred;
+				int in_CRN, in_Time, in_yr, in_cred;	// By Derek
 				char in_Title, in_Day, in_Dept, in_Sem;
 				cout << "What is the CRN, 'Title', 'Department', Time, 'Day', 'Semester', year, credit for your course?" << endl;
 				cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
@@ -265,7 +265,7 @@ int main() {
 				user.addCourse(LW_DB, in_course);
 				break;
 			case 2:
-				int rem_CRN;
+				int rem_CRN;	// By Derek
 				cout << "What is the CRN of the course you would like to remove?" << endl;
 				cin >> rem_CRN;
 				user.removeCourse(LW_DB, rem_CRN);
@@ -279,7 +279,7 @@ int main() {
 				user.searchByParameter(LW_DB);
 				break;
 			case 5:
-				//log out
+				//log out	// By Derek
 				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
 				return 0;
@@ -317,7 +317,7 @@ int main() {
 				student.searchByParameter(LW_DB);
 				break;
 			case 5:
-				//log out
+				//log out	// By Derek
 				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
 				return 0;
