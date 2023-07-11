@@ -173,6 +173,8 @@ int get_WID(sqlite3* LW_DB, string usr) {	// By Derek
 
 
 int main() {
+	// Default User
+	User default_usr("Bob");
 	// Database 
 	sqlite3* LW_DB;
 	int exit = 1;
@@ -193,13 +195,15 @@ int main() {
 	cin >> username;
 	cout << "Password: ";
 	cin >> pwd;
-	if (check_credential(LW_DB, username, pwd) == 0) {	// check credential using sqlite3_column_int()
+	if (default_usr.Login(LW_DB, username, pwd) == 0) {	// check credential using sqlite3_column_int()
 		return 0;
 	}
 	// display menu according to User Type
 	int user_input = 10;
 	while (1) {
 		if (check_class(LW_DB, username) == 1) {	// Instructor Menu
+			string i_username;
+			string i_pwd;
 			string fname = get_fname(LW_DB, username); //get first name of the instructor
 			string lname = get_lname(LW_DB, username); //get last name of the instructor
 			int WID = get_WID(LW_DB, username); // get WID of the instructor
@@ -211,6 +215,7 @@ int main() {
 			cout << "4. Search All Courses" << endl;
 			cout << "5. Search Course Based on Parameter" << endl;
 			cout << "6. Logout" << endl;
+			cout << "7. Close LeopardWeb" << endl;
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
@@ -235,20 +240,27 @@ int main() {
 				break;
 			case 6:
 				//log out	// By Derek
-				//sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
+				// login screen
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 				cout << "Username: ";
-				cin >> username;
+				cin >> i_username;
+				username = i_username;
 				cout << "Password: ";
-				cin >> pwd;
-				if (check_credential(LW_DB, username, pwd) == 0) {	// check credential using sqlite3_column_int()
-					return 0;
-				}
+				cin >> i_pwd;
+				pwd = i_pwd;
+				instructor.Login(LW_DB, i_username, i_pwd); // Relogin
 				break;
+			case 7:
+				// Close program
+				sqlite3_close(LW_DB); // close the database
+				cout << "LeopardWeb Closed!" << endl;
+				return 0;
 			}
 		}
 		else if (check_class(LW_DB, username) == 2) {		// Admin Menu
+			string a_username;
+			string a_pwd;
 			string fname = get_fname(LW_DB, username); //get first name of admin
 			string lname = get_lname(LW_DB, username); //get last name of admin
 			int WID = get_WID(LW_DB, username);  //get WID of admin
@@ -260,6 +272,7 @@ int main() {
 			cout << "3. Search All Courses" << endl;
 			cout << "4. Search Course Based on Parameter" << endl;
 			cout << "5. Logout" << endl;
+			cout << "6. Close LeopardWeb" << endl;
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
@@ -287,13 +300,27 @@ int main() {
 				break;
 			case 5:
 				//log out	// By Derek
-				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
-				return 0;
+				// login screen
+				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+				cout << "Username: ";
+				cin >> a_username;
+				username = a_username;
+				cout << "Password: ";
+				cin >> a_pwd;
+				pwd = a_pwd;
+				user.Login(LW_DB, a_username, a_pwd); // Relogin
 				break;
+			case 6:
+				// Close program
+				sqlite3_close(LW_DB); // close the database
+				cout << "LeopardWeb Closed!" << endl;
+				return 0;
 			}
 		}
 		else if (check_class(LW_DB, username) == 3) {		// Student Menu
+			string s_username;
+			string s_pwd;
 			string fname = get_fname(LW_DB, username); // get student first name
 			string lname = get_lname(LW_DB, username); //get student last name
 			int WID = get_WID(LW_DB, username); //get student WID
@@ -305,6 +332,7 @@ int main() {
 			cout << "3. Search All Courses" << endl;
 			cout << "4. Search Course Based on Parameter" << endl;
 			cout << "5. Logout" << endl;
+			cout << "6. Close LeopardWeb" << endl;
 			cin >> user_input;
 			switch (user_input) {
 			case 1:
@@ -325,10 +353,22 @@ int main() {
 				break;
 			case 5:
 				//log out	// By Derek
-				sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
-				return 0;
+				// login screen
+				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+				cout << "Username: ";
+				cin >> s_username;
+				username = s_username;
+				cout << "Password: ";
+				cin >> s_pwd;
+				pwd = s_pwd;
+				student.Login(LW_DB, s_username, s_pwd); // Relogin
 				break;
+			case 6: 
+				// Close program
+				sqlite3_close(LW_DB); // close the database
+				cout << "LeopardWeb Closed!" << endl;
+				return 0;
 			}
 		}
 		else {
