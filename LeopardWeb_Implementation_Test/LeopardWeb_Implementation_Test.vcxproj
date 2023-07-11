@@ -92,15 +92,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\APC 2023\LeopardWeb_Implementation_\LeopardWeb_Implementation_</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>C:\APC 2023\LeopardWeb_Implementation_\LeopardWeb_Implementation_\x64\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Admin.obj; Instructor.obj; Student.obj; User.obj</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\APC 2023\LeopardWeb_Implementation_\LeopardWeb_Implementation_\x64\Debug;C:\APC 2023\LeopardWeb_Implementation_\LeopardWeb_Implementation_</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Admin.obj; Instructor.obj; Student.obj; User.obj; sqlite3.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

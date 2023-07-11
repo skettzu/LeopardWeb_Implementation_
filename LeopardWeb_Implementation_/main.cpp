@@ -235,9 +235,16 @@ int main() {
 				break;
 			case 6:
 				//log out	// By Derek
-				sqlite3_close(LW_DB); // close the database
+				//sqlite3_close(LW_DB); // close the database
 				cout << "Logged out!" << endl;
-				return 0;
+				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+				cout << "Username: ";
+				cin >> username;
+				cout << "Password: ";
+				cin >> pwd;
+				if (check_credential(LW_DB, username, pwd) == 0) {	// check credential using sqlite3_column_int()
+					return 0;
+				}
 				break;
 			}
 		}

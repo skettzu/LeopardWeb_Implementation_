@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include "sqlite3.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -22,6 +23,9 @@ namespace LeopardWebImplementationTest
 
 		TEST_METHOD(TestMethod1)
 		{
+			string username = "bob123";
+			string pwd = "bob";
+			int 
 		}
 	};
 
