@@ -99,7 +99,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\huangd8\source\repos\LeopardWeb_Implementation_\LeopardWeb_Implementation_\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\APC 2023\LeopardWeb_Implementation_\LeopardWeb_Implementation_\x64\Debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>Admin.obj; Instructor.obj; Student.obj; User.obj</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
