@@ -253,6 +253,28 @@ void admin_test_cases() {
 }
 // Instructor Test Cases
 void prof_test_cases() {
+	sqlite3* DB_Test;
+	int exit = 1;
+	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
+	if (exit != SQLITE_OK) {
+		cout << "error";
+	}
+	else {
+		cout << "open success" << endl;
+	}
+	User default_test("Jonathan", "Smith", 8888888);
+	bool check = true;
+
+	string p_username = "hphan6";
+	string p_pwd = "bob2";
+	int p_wid = get_WID(DB_Test, p_username);
+
+	Instructor instructor(p_username, p_pwd, p_wid);
+	instructor.Login(DB_Test, p_username, p_pwd);
+
+	string crn_test = "33946";
+	instructor.addCourse(DB_Test, crn_test);
+
 
 }
 // Student Test Cases
@@ -262,10 +284,10 @@ void student_test_cases() {
 
 int main() {
 	// Run All Test Cases Before Program Is Ran
-	user_test_cases();
-	admin_test_cases();
+	//user_test_cases();
+	//admin_test_cases();
 	prof_test_cases();
-	student_test_cases();
+	//student_test_cases();
 
 	// Default User
 	User default_usr("Bob");
@@ -311,10 +333,13 @@ int main() {
 			cout << "6. Logout" << endl;
 			cout << "7. Close LeopardWeb" << endl;
 			cin >> user_input;
+			string user_crn;
 			switch (user_input) {
 			case 1:
 				//call add course method for instructor
-				instructor.addCourse(LW_DB);
+				cout << "Enter CRN: ";
+				cin >> user_crn;
+				instructor.addCourse(LW_DB, user_crn);
 				break;
 			case 2:
 				//call droup course method for instructor
