@@ -288,7 +288,7 @@ int main() {
 	cout << "Test Cases Are Verified? (Y/N)" << endl;
 	cin >> verify;
 	if (verify == "Y") {
-		system("cls");
+		system("cls");	// clear test output
 	}
 	else {
 		cout << "Rerun Program";
