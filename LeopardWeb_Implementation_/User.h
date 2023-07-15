@@ -28,6 +28,8 @@ public:
 	void setID(int ID);
 	void printAllInfo();
 	int Login(sqlite3* LW_DB, string usr, string pwd);
+	void searchAllCourse(sqlite3* DB);
+	void searchByParameter(sqlite3* DB);
 
 	// Destructor
 	~User();
