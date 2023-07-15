@@ -15,10 +15,8 @@ public:
 
 	// method
 
-	void searchAllCourse(sqlite3* DB);
-	void searchByParameter(sqlite3* DB);
-	void addCourse(sqlite3* DB);
-	void dropCourse(sqlite3* DB);
+	void addCourse(sqlite3* DB, string user_crn);
+	void dropCourse(sqlite3* DB, string user_crn);
 	void printRoster(sqlite3* DB);
 	void printSchedule();
 	void printClassList();

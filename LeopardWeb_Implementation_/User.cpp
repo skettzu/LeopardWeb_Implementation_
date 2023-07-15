@@ -68,12 +68,8 @@ void User::searchAllCourse(sqlite3* DB) {
 	else cout << "Search Success" << endl;
 }
 
-void User::searchByParameter(sqlite3* DB) {
+void User::searchByParameter(sqlite3* DB, string user_parameter) {
 	int exit = 1;
-	cout << "Enter parameter to seach course: ";
-	string user_parameter;
-	cin >> user_parameter;
-	cin.ignore();
 	//string search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "' OR CRN = " + user_parameter + " OR time = " + user_parameter + " OR year = " + user_parameter + " OR credits = " + user_parameter + "; ");
 	//search for integer parameter
 	string search_parameter = ("SELECT * FROM COURSES WHERE CRN = " + user_parameter + " OR time = " + user_parameter + " OR year = " + user_parameter + " OR credits = " + user_parameter + "; ");
@@ -86,14 +82,14 @@ void User::searchByParameter(sqlite3* DB) {
 		search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "';");
 		//cout << search_parameter << endl;
 		exit = sqlite3_exec(DB, search_parameter.c_str(), callback, NULL, NULL);
-		/*
+		
 		if (exit != SQLITE_OK) {
 			cout << "Search Error" << endl;
 		}
-		else cout << "Search Success" << endl;
-		*/
+		//else cout << "Search Success" << endl;
+		
 	}
-	//else cout << "Search Success" << endl;
+	else cout << "Search Success" << endl;
 }
 int User::Login(sqlite3* LW_DB, string usr, string pwd) {
 	string query = "SELECT 1 FROM CREDENTIAL WHERE (Username = '" + usr + "' AND Password = '" + pwd + "'); ";	// SQL statement selecting 1 if there is the username + pwd combo
