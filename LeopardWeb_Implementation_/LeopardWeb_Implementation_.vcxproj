@@ -104,12 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\APC 2023\LeopardWeb_Implementation_\LeopardWeb_Implementation_</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\huyph\OneDrive\Desktop\LeopardWeb_Implementation_\LeopardWeb_Implementation_</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\APC 2023\LeopardWeb_Implementation_\LeopardWeb_Implementation_</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\huyph\OneDrive\Desktop\LeopardWeb_Implementation_\LeopardWeb_Implementation_</AdditionalLibraryDirectories>
       <AdditionalDependencies>sqlite3.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
