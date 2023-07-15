@@ -174,6 +174,8 @@ int get_WID(sqlite3* LW_DB, string usr) {	// By Derek
 
 // User Test Cases
 void user_test_cases() {
+	cout << endl << "*********** User Test Cases *************" << endl;
+
 	// Put All Tests That Pertain to All Classes In This Method
 	int exit = 1;
 	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
@@ -258,17 +260,36 @@ void user_test_cases() {
 }
 // Admin Test Cases
 void admin_test_cases() {
-	
+	cout << endl << "*********** Admin Test Cases *************" << endl;
+	sqlite3* DB_Test;
+	int exit = 1;
+	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
+	if (exit != SQLITE_OK) {
+		cout << "error";
+	}
+	else {
+		cout << "open success" << endl;
+	}
 	Admin default_test("Jonathan", "Smith", 8888888);
 	// Add/Remove Test Cases:	By: Derek
 	// Expected: Add and Remove a Default Course With Appropriate Output to Console
+	cout << "Admin add course to the system" << endl;
 	string default_course = "000000, 'default', 'default', 000, 'default', 'default', 0000, 0, 'default', 000, 0";
 	default_test.addCourse(DB_Test, default_course);
+	
+	cout << "Admin remove course from the system" << endl;
 	default_test.removeCourse(DB_Test, 000000);
 	
+	cout << "Admin search all course" << endl;
+	default_test.searchAllCourse(DB_Test);
+
+	cout << "Admin search course by parameter" << endl;
+	string test_parameter = "Spring";
+	default_test.searchByParameter(DB_Test, test_parameter);
 }
 // Instructor Test Cases
 void prof_test_cases() {
+	cout << endl << "*********** Instructor Test Cases *************" << endl;
 	sqlite3* DB_Test;
 	int exit = 1;
 	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
@@ -279,25 +300,33 @@ void prof_test_cases() {
 		cout << "open success" << endl;
 	}
 	User default_test("Jonathan", "Smith", 8888888);
-	bool check = true;
-
+	//login test using instructor credential
 	string p_username = "hphan6";
 	string p_pwd = "bob2";
+	//expect login successfully 
 	int p_wid = get_WID(DB_Test, p_username);
-
 	Instructor instructor(p_username, p_pwd, p_wid);
 	instructor.Login(DB_Test, p_username, p_pwd);
-
+	//add course with 33950 crn to instructor schedule
 	string crn_test = "33950";
 	cout << endl << "Instructor add course test | CRN : 33950" << endl;
+	//expect insert success
 	instructor.addCourse(DB_Test, crn_test);
 
+	//drop course with 33950 crn from the instructor schedule
+	//expect remove success
 	cout << endl << "Instructor drop course test | CRN : 33950" << endl;
 	instructor.dropCourse(DB_Test, crn_test);
 
+	//print roster
+	cout << endl << "Instructor print roster" << endl;
+	instructor.printRoster(DB_Test);
+
+	// display all course from course table
 	cout << endl << "Instructor search all course" << endl;
 	instructor.searchAllCourse(DB_Test);
 
+	// dispaly course that has parameter "Spring"
 	cout << "Instructor search course by parameter | parameter : Spring" << endl;
 	string test_parameter = "Spring";
 	instructor.searchByParameter(DB_Test, test_parameter);
@@ -305,14 +334,50 @@ void prof_test_cases() {
 // Student Test Cases
 void student_test_cases() {
 
+	cout << endl << "*********** Student Test Cases *************" << endl;
+	sqlite3* DB_Test;
+	int exit = 1;
+	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
+	if (exit != SQLITE_OK) {
+		cout << "error";
+	}
+	else {
+		cout << "open success" << endl;
+	}
+	User default_test("Jonathan", "Smith", 8888888);
+
+	//login using student credential
+	string p_username = "dhuang9";
+	string p_pwd = "bob1";
+	int p_wid = get_WID(DB_Test, p_username);
+
+	Instructor student(p_username, p_pwd, p_wid);
+	student.Login(DB_Test, p_username, p_pwd);
+	//add course that has 33950 CRN to the student schedule
+	string crn_test = "33950";
+	cout << endl << "Student add course test | CRN : 33950" << endl;
+	student.addCourse(DB_Test, crn_test);
+
+	//drop course that has 33950 CRN to the student schedule
+	cout << endl << "Student drop course test | CRN : 33950" << endl;
+	student.dropCourse(DB_Test, crn_test);
+
+	//display all course from course table
+	cout << endl << "Student search all course" << endl;
+	student.searchAllCourse(DB_Test);
+
+	//display course that has parameter "Spring"
+	cout << "Student search course by parameter | parameter : Spring" << endl;
+	string test_parameter = "Spring";
+	student.searchByParameter(DB_Test, test_parameter);
 }
 
 int main() {
 	// Run All Test Cases Before Program Is Ran
-	//user_test_cases();
-	//admin_test_cases();
+	user_test_cases();
+	admin_test_cases();
 	prof_test_cases();
-	//student_test_cases();
+	student_test_cases();
 
 	// Verify Test Cases and Clear Output
 	string verify;
