@@ -171,8 +171,90 @@ int get_WID(sqlite3* LW_DB, string usr) {	// By Derek
 	return result;
 }
 
+// User Test Cases
+void user_test_cases() {
+	// Put All Tests That Pertain to All Classes In This Method
+	sqlite3* DB_Test;
+	int exit = 1;
+	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
+	if (exit != SQLITE_OK) {
+		cout << "error";
+	}
+	else {
+		cout << "open success" << endl;
+	}
+	User default_test("Jonathan", "Smith", 8888888);
+	bool check = true;
+	// Login Test:
+	// *********************Start of Login Test Cases***********************
+	// Student Login:
+	string s_username = "dhuang9";
+	string s_pwd = "bob1";
+	if (default_test.Login(DB_Test, s_username, s_pwd) == 0) {
+		cout << "Student Test Failed" << endl;
+		check = false;
+	}
+	else {
+		cout << "Student Test Passed!" << endl;
+	}
+	// Admin Login:
+	string a_username = "bob123";
+	string a_pwd = "bob";
+	if (default_test.Login(DB_Test, a_username, a_pwd) == 0) {
+		cout << "Admin Test Failed" << endl;
+		check = false;
+	}
+	else {
+		cout << "Admin Test Passed!" << endl;
+	}
+	// Instructor Login:
+	string i_username = "hphan6";
+	string i_pwd = "bob2";
+	if (default_test.Login(DB_Test, i_username, i_pwd) == 0) {
+		cout << "Instructor Test Failed" << endl;
+		check = false;
+	}
+	else {
+		cout << "Instructor Test Passed!" << endl;
+	}
+	if (check == false) {
+		cout << "Login Test Has Failed!" << endl;
+	}
+	else {
+		cout << "All Login Tests Passed!" << endl;
+	}
+	// Logout Test (DB Close)
+	exit = sqlite3_close(DB_Test); // close the database
+	if (exit != SQLITE_OK) {
+		cout << "Logout Error";
+	}
+	else {
+		cout << "Logout Successful" << endl;
+	}
+	// *********************End of Login Test Cases***********************
+
+}
+// Admin Test Cases
+void admin_test_cases() {
+	// Add/Remove Test Cases:
+
+}
+// Instructor Test Cases
+void prof_test_cases() {
+
+}
+// Student Test Cases
+void student_test_cases() {
+
+}
 
 int main() {
+	// Run All Test Cases Before Program Is Ran
+	user_test_cases();
+	admin_test_cases();
+	prof_test_cases();
+	student_test_cases();
+
 	// Default User
 	User default_usr("Bob");
 	// Database 
