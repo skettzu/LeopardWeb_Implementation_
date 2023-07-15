@@ -231,8 +231,12 @@ void user_test_cases() {
 	else {
 		cout << "All Login Tests Passed!" << endl;
 	}
-	// Search All Courses 
 	
+	// *********************End of Login Test Cases***********************
+
+	// Search All Courses Test
+	// Expected: All courses are print to console 
+	default_test.searchAllCourse(DB_Test);
 	// Logout Test (DB Close)
 	exit = sqlite3_close(DB_Test); // close the database
 	if (exit == SQLITE_OK) {
@@ -241,9 +245,12 @@ void user_test_cases() {
 	else {
 		cout << "Logout Error: ";
 		cout << to_string(exit) << endl;
-		
+
 	}
-	// *********************End of Login Test Cases***********************
+	if (default_test.Login(DB_Test, s_username, s_pwd) == 0) {
+		cout << "Student Test Failed" << endl;
+		check = false;
+	}
 
 }
 // Admin Test Cases
