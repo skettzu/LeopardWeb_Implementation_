@@ -22,8 +22,6 @@ public:
 	void removeStudent();
 	void searchRoster();
 	void printCourses();
-	void searchAllCourse(sqlite3* DB);
-	void searchByParameter(sqlite3* DB);
 
 	// destructor
 	~Admin();

@@ -280,12 +280,18 @@ void prof_test_cases() {
 	instructor.Login(DB_Test, p_username, p_pwd);
 
 	string crn_test = "33950";
-	cout << "Instructor add course test | CRN : 33950" << endl;
+	cout << endl << "Instructor add course test | CRN : 33950" << endl;
 	instructor.addCourse(DB_Test, crn_test);
-	cout << "Instructor drop course test | CRN : 33950" << endl;
+
+	cout << endl << "Instructor drop course test | CRN : 33950" << endl;
 	instructor.dropCourse(DB_Test, crn_test);
 
+	cout << endl << "Instructor search all course" << endl;
+	instructor.searchAllCourse(DB_Test);
 
+	cout << "Instructor search course by parameter | parameter : Spring" << endl;
+	string test_parameter = "Spring";
+	instructor.searchByParameter(DB_Test, test_parameter);
 }
 // Student Test Cases
 void student_test_cases() {
@@ -344,6 +350,7 @@ int main() {
 			cout << "7. Close LeopardWeb" << endl;
 			cin >> user_input;
 			string user_crn;
+			string user_parameter;
 			switch (user_input) {
 			case 1:
 				//call add course method for instructor
@@ -367,7 +374,9 @@ int main() {
 				break;
 			case 5:
 				//instructor search course by parameter
-				instructor.searchByParameter(LW_DB);
+				cout << "Enter parameter to seach course: ";
+				cin >> user_parameter;
+				instructor.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 6:
 				//log out	// By Derek
@@ -397,6 +406,8 @@ int main() {
 			int WID = get_WID(LW_DB, username);  //get WID of admin
 			Admin user(fname, lname, WID); //create admin object
 			string in_course;
+			string user_crn;
+			string user_parameter;
 			
 			cout << "1. Add Course from System" << endl;
 			cout << "2. Remove Course from System" << endl;
@@ -427,7 +438,9 @@ int main() {
 				break;
 			case 4:
 				//admin search and print course by parameter
-				user.searchByParameter(LW_DB);
+				cout << "Enter parameter to seach course: ";
+				cin >> user_parameter;
+				user.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 5:
 				//log out	// By Derek
@@ -457,6 +470,8 @@ int main() {
 			int WID = get_WID(LW_DB, username); //get student WID
 			//cout << fname << " " << lname << " " << WID << endl;
 			Student student(fname, lname, WID); //create student object
+			string user_crn;
+			string user_parameter;
 
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
@@ -468,11 +483,15 @@ int main() {
 			switch (user_input) {
 			case 1:
 				//student add course to schedule
-				student.addCourse(LW_DB);
+				cout << "Enter CRN to register: ";
+				cin >> user_crn;
+				student.addCourse(LW_DB, user_crn);
 				break;
 			case 2:
 				//student drop course from schedule
-				student.dropCourse(LW_DB);
+				cout << "Enter CRN to drop course: ";
+				cin >> user_crn;
+				student.dropCourse(LW_DB,user_crn);
 				break;
 			case 3:
 				//student search all course
@@ -480,7 +499,10 @@ int main() {
 				break;
 			case 4:
 				//student search course by parameter
-				student.searchByParameter(LW_DB);
+
+				cout << "Enter parameter to seach course: ";
+				cin >> user_parameter;
+				student.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 5:
 				//log out	// By Derek
