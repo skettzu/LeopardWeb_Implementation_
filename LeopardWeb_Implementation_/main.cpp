@@ -217,19 +217,31 @@ void user_test_cases() {
 	else {
 		cout << "Instructor Test Passed!" << endl;
 	}
+	// Check to see if tests are giving false positive
+	if (default_test.Login(DB_Test, "username", "password") == 1) {
+		cout << "Tests are faulty!" << endl;
+		check = false;
+	}
+	else {
+		cout << "Tests are valid!" << endl;
+	}
 	if (check == false) {
 		cout << "Login Test Has Failed!" << endl;
 	}
 	else {
 		cout << "All Login Tests Passed!" << endl;
 	}
+	// Search All Courses 
+	
 	// Logout Test (DB Close)
 	exit = sqlite3_close(DB_Test); // close the database
-	if (exit != SQLITE_OK) {
-		cout << "Logout Error";
+	if (exit == SQLITE_OK) {
+		cout << "Logout Successful" << endl;
 	}
 	else {
-		cout << "Logout Successful" << endl;
+		cout << "Logout Error: ";
+		cout << to_string(exit) << endl;
+		
 	}
 	// *********************End of Login Test Cases***********************
 
@@ -263,7 +275,7 @@ int main() {
 	// Don't forget to close db at the end of program
 	exit = sqlite3_open("LeopardWeb_Implementation.db", &LW_DB); // open the database
 	if (exit != SQLITE_OK) {
-		cout << "error";
+		cout << "error" << endl;
 	}
 	else {
 		cout << "open success" << endl;
