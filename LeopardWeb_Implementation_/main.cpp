@@ -9,6 +9,7 @@
 
 using namespace std;
 
+sqlite3* DB_Test;
 
 static int callback(void* data, int argc, char** argv, char** azColName)
 {
@@ -174,7 +175,6 @@ int get_WID(sqlite3* LW_DB, string usr) {	// By Derek
 // User Test Cases
 void user_test_cases() {
 	// Put All Tests That Pertain to All Classes In This Method
-	sqlite3* DB_Test;
 	int exit = 1;
 	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
 	if (exit != SQLITE_OK) {
@@ -187,6 +187,7 @@ void user_test_cases() {
 	bool check = true;
 	// Login Test:
 	// *********************Start of Login Test Cases***********************
+	// By: Derek
 	// Student Login:
 	string s_username = "dhuang9";
 	string s_pwd = "bob1";
@@ -237,7 +238,12 @@ void user_test_cases() {
 	// Search All Courses Test
 	// Expected: All courses are print to console 
 	default_test.searchAllCourse(DB_Test);
+	// Search Courses Based on Parameter
+	// Expected:
+	
 	// Logout Test (DB Close)
+	// By: Derek
+	/*
 	exit = sqlite3_close(DB_Test); // close the database
 	if (exit == SQLITE_OK) {
 		cout << "Logout Successful" << endl;
@@ -247,16 +253,19 @@ void user_test_cases() {
 		cout << to_string(exit) << endl;
 
 	}
-	if (default_test.Login(DB_Test, s_username, s_pwd) == 0) {
-		cout << "Student Test Failed" << endl;
-		check = false;
-	}
+	*/
 
 }
 // Admin Test Cases
 void admin_test_cases() {
-	// Add/Remove Test Cases:
-
+	
+	Admin default_test("Jonathan", "Smith", 8888888);
+	// Add/Remove Test Cases:	By: Derek
+	// Expected: Add and Remove a Default Course With Appropriate Output to Console
+	string default_course = "000000, 'default', 'default', 000, 'default', 'default', 0000, 0, 'default', 000, 0";
+	default_test.addCourse(DB_Test, default_course);
+	default_test.removeCourse(DB_Test, 000000);
+	
 }
 // Instructor Test Cases
 void prof_test_cases() {
@@ -273,6 +282,18 @@ int main() {
 	admin_test_cases();
 	prof_test_cases();
 	student_test_cases();
+
+	// Verify Test Cases and Clear Output
+	string verify;
+	cout << "Test Cases Are Verified? (Y/N)" << endl;
+	cin >> verify;
+	if (verify == "Y") {
+		system("cls");	// clear test output
+	}
+	else {
+		cout << "Rerun Program";
+		return 0;
+	}
 
 	// Default User
 	User default_usr("Bob");
@@ -379,7 +400,7 @@ int main() {
 			case 1:
 				int in_CRN, in_Time, in_yr, in_cred;	// By Derek
 				char in_Title, in_Day, in_Dept, in_Sem;
-				cout << "What is the CRN, 'Title', 'Department', Time, 'Day', 'Semester', year, credit for your course?" << endl;
+				cout << "What is the CRN, 'Title', 'Department', Time, 'Day', 'Semester', year, credit, 'location', duration, sections for your course?" << endl;
 				cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
 				cin.ignore();
 				getline(cin, in_course);	
