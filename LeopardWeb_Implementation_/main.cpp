@@ -272,8 +272,11 @@ void prof_test_cases() {
 	Instructor instructor(p_username, p_pwd, p_wid);
 	instructor.Login(DB_Test, p_username, p_pwd);
 
-	string crn_test = "33946";
+	string crn_test = "33950";
+	cout << "Instructor add course test | CRN : 33950" << endl;
 	instructor.addCourse(DB_Test, crn_test);
+	cout << "Instructor drop course test | CRN : 33950" << endl;
+	instructor.dropCourse(DB_Test, crn_test);
 
 
 }
@@ -343,7 +346,9 @@ int main() {
 				break;
 			case 2:
 				//call droup course method for instructor
-				instructor.dropCourse(LW_DB);
+				cout << "Enter CRN to drop course: ";
+				cin >> user_crn;
+				instructor.dropCourse(LW_DB, user_crn);
 				break;
 			case 3:
 				//call instructor's print roster method

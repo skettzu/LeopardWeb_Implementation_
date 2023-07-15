@@ -91,7 +91,6 @@ void Instructor::searchByParameter(sqlite3* DB) {
 void Instructor::addCourse(sqlite3* DB, string user_crn) {
 	//cout << "Student's addCourse has been called" << endl;
 	int exit = 1;
-	string user_crn;
 	string insert_s_course;
 	insert_s_course = "INSERT INTO INSTRUCTOR_SCHEDULE SELECT CRN, Title, day, location, duration, sections FROM COURSES WHERE CRN = " + user_crn + ";";
 	//cout << insert_s_course << endl;
@@ -102,13 +101,10 @@ void Instructor::addCourse(sqlite3* DB, string user_crn) {
 	else cout << "Insert Success" << endl;
 }
 
-void Instructor::dropCourse(sqlite3* DB) {
+void Instructor::dropCourse(sqlite3* DB, string user_crn) {
 	//cout << "Student's dropCourse has been called" << endl;
 	int exit = 1;
-	string user_crn;
 	string delete_s_course;
-	cout << "Enter CRN to drop course: ";
-	cin >> user_crn;
 	delete_s_course = "DELETE FROM INSTRUCTOR_SCHEDULE WHERE CRN = " + user_crn + ";";
 	exit = sqlite3_exec(DB, delete_s_course.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
