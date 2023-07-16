@@ -261,17 +261,10 @@ void user_test_cases() {
 // Admin Test Cases
 void admin_test_cases() {
 	cout << endl << "*********** Admin Test Cases *************" << endl;
-	sqlite3* DB_Test;
-	int exit = 1;
-	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
-	if (exit != SQLITE_OK) {
-		cout << "error";
-	}
-	else {
-		cout << "open success" << endl;
-	}
+	
 	Admin default_test("Jonathan", "Smith", 8888888);
 	// Add/Remove Test Cases:	By: Derek
+	// Test Case 1
 	// Expected: Add and Remove a Default Course With Appropriate Output to Console
 	cout << "Admin add course to the system" << endl;
 	string default_course = "000000, 'default', 'default', 000, 'default', 'default', 0000, 0, 'default', 000, 0";
@@ -279,7 +272,12 @@ void admin_test_cases() {
 	
 	cout << "Admin remove course from the system" << endl;
 	default_test.removeCourse(DB_Test, 000000);
-	
+	// Test Case 2
+	// Expected: Add a course with too many inputs, will print sqlite error code
+	cout << "Admin add course to the system (Bug)" << endl;
+	string default_bug = "000000, 'default', 'default', 000, 'default', 'default', 0000, 0, 'default', 000, 0, 0, 0, 0";
+	default_test.addCourse(DB_Test, default_bug);
+
 	cout << "Admin search all course" << endl;
 	default_test.searchAllCourse(DB_Test);
 
@@ -290,15 +288,7 @@ void admin_test_cases() {
 // Instructor Test Cases
 void prof_test_cases() {
 	cout << endl << "*********** Instructor Test Cases *************" << endl;
-	sqlite3* DB_Test;
-	int exit = 1;
-	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
-	if (exit != SQLITE_OK) {
-		cout << "error";
-	}
-	else {
-		cout << "open success" << endl;
-	}
+	
 	User default_test("Jonathan", "Smith", 8888888);
 	//login test using instructor credential
 	string p_username = "hphan6";
@@ -335,15 +325,7 @@ void prof_test_cases() {
 void student_test_cases() {
 
 	cout << endl << "*********** Student Test Cases *************" << endl;
-	sqlite3* DB_Test;
-	int exit = 1;
-	exit = sqlite3_open("LeopardWeb_Implementation.db", &DB_Test); // open the database
-	if (exit != SQLITE_OK) {
-		cout << "error";
-	}
-	else {
-		cout << "open success" << endl;
-	}
+	
 	User default_test("Jonathan", "Smith", 8888888);
 
 	//login using student credential
