@@ -78,7 +78,9 @@ void Instructor::printRoster(sqlite3* DB) {
 	//cout << "Student's dropCourse has been called" << endl;
 	int exit = 1;
 	string user_crn;
-	string print_roster = "SELECT * FROM INSTRUCTOR_SCHEDULE;";
+	cout << "Enter CRN to print roster: ";
+	cin >> user_crn;
+	string print_roster = "SELECT Student FROM STUDENT_SCHEDULE WHERE CRN = " + user_crn+ "; ";
 	exit = sqlite3_exec(DB, print_roster.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Print Failed" << endl;
