@@ -83,7 +83,6 @@ void Student::printSchedule(sqlite3* DB, string student_name) {
 	else cout << "Print Schdule Success" << endl;
 }
 // destructor
-
 Student::~Student() {
 
 }

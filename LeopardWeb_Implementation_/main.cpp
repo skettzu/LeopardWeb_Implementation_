@@ -536,6 +536,13 @@ int main() {
 			cin >> user_input;
 			string user_crn;
 			string user_parameter;
+			if (!cin)
+			{
+				cout << "Invalid Option" << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				continue;
+			}
 			switch (user_input) {
 			case 1:
 				//call add course method for instructor
@@ -581,6 +588,8 @@ int main() {
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
 				return 0;
+			default:
+				cout << "Invalid Option" << endl;
 			}
 		}
 		else if (check_class(LW_DB, username) == 2) {		// Admin Menu
@@ -593,14 +602,25 @@ int main() {
 			string in_course;
 			string user_crn;
 			string user_parameter;
+			string in_student, in_instructor, user_type, user_id;
+	
 			
 			cout << "1. Add Course from System" << endl;
 			cout << "2. Remove Course from System" << endl;
 			cout << "3. Search All Courses" << endl;
 			cout << "4. Search Course Based on Parameter" << endl;
-			cout << "5. Logout" << endl;
-			cout << "6. Close LeopardWeb" << endl;
+			cout << "5. Add Student/Instructor to System" << endl;
+			cout << "6. Remove Student/Instructor from System" << endl;
+			cout << "7. Logout" << endl;
+			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
+			if (!cin)
+			{
+				cout << "Invalid Option" << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				continue;
+			}
 			switch (user_input) {
 			case 1:
 				int in_CRN, in_Time, in_yr, in_cred;	// By Derek
@@ -628,6 +648,30 @@ int main() {
 				user.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 5:
+				cout << "Who do you want to add to the system? (I for Instructor, S for Student): ";
+				cin >> user_type;
+				if (user_type == "S" || user_type == "s") {
+					cout << "Enter Student Information (ID, Name, Surname, Grad Year, Major and Email): " << endl;
+					cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
+					cin.ignore();
+					getline(cin, in_student);
+					user.addStudent(LW_DB, in_student, "Student");
+				}
+				else if (user_type == "I" || user_type == "i") {
+					cout << "Enter Instructor Information (ID, Name, Surname, Title, Hire Year, Dept, and Email): " << endl;
+					cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
+					cin.ignore();
+					getline(cin, in_instructor);
+					user.addStudent(LW_DB, in_instructor, "Instructor");
+				}
+				else cout << "Invalid Input" << endl;
+				break;
+			case 6:
+				cout << "Enter ID of user you want to remove from the system: ";
+				cin >> user_id;
+				user.removeUser(LW_DB, user_id);
+				break;
+			case 7:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
@@ -640,11 +684,13 @@ int main() {
 				pwd = a_pwd;
 				user.Login(LW_DB, a_username, a_pwd); // Relogin
 				break;
-			case 6:
+			case 8:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
 				return 0;
+			default:
+				cout << "Invalid Option" << endl;
 			}
 		}
 		else if (check_class(LW_DB, username) == 3) {		// Student Menu
