@@ -72,8 +72,15 @@ void Student::dropCourse(sqlite3* DB, string user_crn) {
 	else cout << "Delete Success" << endl;
 }
 
-void Student::printSchedule() {
-	cout << "Student's printSchedule has been called" << endl;
+void Student::printSchedule(sqlite3* DB, string student_name) {
+	int exit = 1;
+	string print_schedule = "SELECT CRN, Class, Day, Location, Duration FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
+	cout << print_schedule << endl;
+	exit = sqlite3_exec(DB, print_schedule.c_str(), callback, NULL, NULL);
+	if (exit != SQLITE_OK) {
+		cout << "Print Schedule Failed" << endl;
+	}
+	else cout << "Print Schdule Success" << endl;
 }
 // destructor
 

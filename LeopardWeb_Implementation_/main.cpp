@@ -661,11 +661,19 @@ int main() {
 
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
+			cout << "3. Print Schedule" << endl;
 			cout << "3. Search All Courses" << endl;
 			cout << "4. Search Course Based on Parameter" << endl;
 			cout << "5. Logout" << endl;
 			cout << "6. Close LeopardWeb" << endl;
 			cin >> user_input;
+			if (!cin)
+			{
+				cout << "Invalid Option" << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				continue;
+			}
 			switch (user_input) {
 			case 1:
 				//student add course to schedule
@@ -679,24 +687,27 @@ int main() {
 				//cout << crn + title + day + location + duration << endl;
 				student.addCourse(LW_DB, user_crn, username, crn, title, day, location, duration);
 				break;
+			case 3:
+				student.printSchedule(LW_DB, username);
+				break;
 			case 2:
 				//student drop course from schedule
 				cout << "Enter CRN to drop course: ";
 				cin >> user_crn;
 				student.dropCourse(LW_DB,user_crn);
 				break;
-			case 3:
+			case 4:
 				//student search all course
 				student.searchAllCourse(LW_DB);
 				break;
-			case 4:
+			case 5:
 				//student search course by parameter
 
 				cout << "Enter parameter to seach course: ";
 				cin >> user_parameter;
 				student.searchByParameter(LW_DB, user_parameter);
 				break;
-			case 5:
+			case 6:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
@@ -709,11 +720,13 @@ int main() {
 				pwd = s_pwd;
 				student.Login(LW_DB, s_username, s_pwd); // Relogin
 				break;
-			case 6: 
+			case 7: 
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
 				return 0;
+			default:
+				cout << "Invalid Option" << endl;
 			}
 		}
 		else {
