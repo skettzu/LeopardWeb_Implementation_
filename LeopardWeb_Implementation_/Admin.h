@@ -16,12 +16,9 @@ public:
 	// method
 	void addCourse(sqlite3* DB, string course);
 	void removeCourse(sqlite3* DB, int CRN);
-	void addUser();
-	void removeUser();
 	void addStudent(sqlite3* DB, string user_info, string user_type);
 	void removeUser(sqlite3* DB, string in_id);
-	void searchRoster();
-	void printCourses();
+	void searchRoster(sqlite3* DB);
 
 	// destructor
 	~Admin();

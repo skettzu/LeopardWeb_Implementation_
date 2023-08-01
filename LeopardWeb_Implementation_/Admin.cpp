@@ -64,12 +64,6 @@ void Admin::removeCourse(sqlite3* DB, int CRN) {
 		cout << "Removed Course Successfully!" << endl;
 	}
 }
-void Admin::addUser() {
-	cout << "Admin's addUser has been called" << endl;
-}
-void Admin::removeUser() {
-	cout << "Admin's removeUser has been called" << endl;
-}
 void Admin::addStudent(sqlite3* DB, string user_info, string user_type) {
 	string insert_student, insert_instructor;
 	if (user_type == "Student") {
@@ -104,18 +98,23 @@ void Admin::removeUser(sqlite3* DB, string in_id) {
 			cout << "Delete Error: " << sqlite3_errmsg(DB) << endl;
 		}
 		else {
-			cout << "RemovedSuccessfully!" << endl;
+			cout << "Removed Successfully!" << endl;
 		}
 	}
 	else {
 		cout << "Removed Successfully!" << endl;
 	}
 }
-void Admin::searchRoster() {
-	cout << "Admin's searchRoster has been called" << endl;
-}
-void Admin::printCourses() {
-	cout << "Admin's printCourse has been called" << endl;
+void Admin::searchRoster(sqlite3* DB) {
+	string user_crn;
+	cout << "Enter CRN to print course: ";
+	cin >> user_crn;
+	string print_roster = "SELECT Student FROM STUDENT_SCHEDULE WHERE CRN = " + user_crn + ";";
+	int exit = sqlite3_exec(DB, print_roster.c_str(), callback, NULL, NULL);
+	if (exit != SQLITE_OK) {
+		cout << "Print Failed" << endl;
+	}
+	else cout << "Print Success" << endl;
 }
 
 
