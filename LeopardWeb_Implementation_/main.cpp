@@ -172,7 +172,7 @@ int get_WID(sqlite3* LW_DB, string usr) {	// By Derek
 	return result;
 }
 
-string get_crn(sqlite3* LW_DB, string crn) {	
+string get_crn(sqlite3* LW_DB, string crn) {
 	string query = "SELECT CRN FROM COURSES WHERE CRN = " + crn + ";";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -181,7 +181,7 @@ string get_crn(sqlite3* LW_DB, string crn) {
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
 	if (rc != SQLITE_ROW) {
-		cout << "Course Doesn't exist" << endl;	
+		cout << "Course Doesn't exist" << endl;
 	}
 	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
 	int size = length * sizeof(unsigned char);  // calculate the total size
@@ -204,7 +204,7 @@ string get_title(sqlite3* LW_DB, string crn) {
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
 	if (rc != SQLITE_ROW) {
-		cout << "Course Doesn't exist" << endl;	
+		cout << "Course Doesn't exist" << endl;
 	}
 	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
 	int size = length * sizeof(unsigned char);  // calculate the total size
@@ -227,7 +227,7 @@ string get_day(sqlite3* LW_DB, string crn) {
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
 	if (rc != SQLITE_ROW) {
-		cout << "Course Doesn't exist" << endl;	
+		cout << "Course Doesn't exist" << endl;
 	}
 	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
 	int size = length * sizeof(unsigned char);  // calculate the total size
@@ -349,7 +349,7 @@ void user_test_cases() {
 	else {
 		cout << "All Login Tests Passed!" << endl;
 	}
-	
+
 	// *********************End of Login Test Cases***********************
 
 	// Search All Courses Test
@@ -357,7 +357,7 @@ void user_test_cases() {
 	default_test.searchAllCourse(DB_Test);
 	// Search Courses Based on Parameter
 	// Expected:
-	
+
 	// Logout Test (DB Close)
 	// By: Derek
 	/*
@@ -376,7 +376,7 @@ void user_test_cases() {
 // Admin Test Cases
 void admin_test_cases() {
 	cout << endl << "*********** Admin Test Cases *************" << endl;
-	
+
 	Admin default_test("Jonathan", "Smith", 8888888);
 	// Add/Remove Test Cases:	By: Derek
 	// Test Case 1
@@ -384,7 +384,7 @@ void admin_test_cases() {
 	cout << "Admin add course to the system" << endl;
 	string default_course = "000000, 'default', 'default', 000, 'default', 'default', 0000, 0, 'default', 000, 0";
 	default_test.addCourse(DB_Test, default_course);
-	
+
 	cout << "Admin remove course from the system" << endl;
 	default_test.removeCourse(DB_Test, 000000);
 	// Test Case 2
@@ -403,7 +403,7 @@ void admin_test_cases() {
 // Instructor Test Cases
 void prof_test_cases() {
 	cout << endl << "*********** Instructor Test Cases *************" << endl;
-	
+
 	User default_test("Jonathan", "Smith", 8888888);
 	//login test using instructor credential
 	string p_username = "hphan6";
@@ -440,7 +440,7 @@ void prof_test_cases() {
 void student_test_cases() {
 
 	cout << endl << "*********** Student Test Cases *************" << endl;
-	
+
 	User default_test("Jonathan", "Smith", 8888888);
 
 	//login using student credential
@@ -576,35 +576,22 @@ int main() {
 				break;
 			case 6:
 				//log out	// By Derek
-				while (1) {
-					cout << "Logged out!" << endl;
-					// login screen
-					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+				cout << "Logged out!" << endl;
+				// login screen
+				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+				cout << "Username: ";
+				cin >> i_username;
+				username = i_username;
+				cout << "Password: ";
+				cin >> i_pwd;
+				while (instructor.Login(LW_DB, i_username, i_pwd) == 0) { // Relogin
+					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> i_username;
-					username = i_username;
 					cout << "Password: ";
 					cin >> i_pwd;
-					pwd = i_pwd;
-					if (instructor.Login(LW_DB, i_username, i_pwd) == 1) { // Relogin
-						break;
-					}
-					cout << "Logged out!" << endl;
-					// login screen
-					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-					cout << "Username: ";
-					cin >> i_username;
-					username = i_username;
-					cout << "Password: ";
-					cin >> i_pwd;
-					while (instructor.Login(LW_DB, i_username, i_pwd) == 0) { // Relogin
-						cout << "Enter correct username and password." << endl;
-						cout << "Username: ";
-						cin >> i_username;
-						cout << "Password: ";
-						cin >> i_pwd;
-					}
-					break;
+				}
+				break;
 			case 7:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
@@ -612,7 +599,6 @@ int main() {
 				return 0;
 			default:
 				cout << "Invalid Option" << endl;
-				}
 			}
 		}
 		else if (check_class(LW_DB, username) == 2) {		// Admin Menu
@@ -703,31 +689,20 @@ int main() {
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
-				while (1) {
-					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+				cout << "Username: ";
+				cin >> a_username;
+				username = a_username;
+				cout << "Password: ";
+				cin >> a_pwd;
+				while (user.Login(LW_DB, a_username, a_pwd) == 0) { // Relogin
+					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> a_username;
-					username = a_username;
 					cout << "Password: ";
 					cin >> a_pwd;
-					pwd = a_pwd;
-					if (user.Login(LW_DB, a_username, a_pwd) == 1) { // Relogin
-						break;
-					}
-					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-					cout << "Username: ";
-					cin >> a_username;
-					username = a_username;
-					cout << "Password: ";
-					cin >> a_pwd;
-					while (user.Login(LW_DB, a_username, a_pwd) == 0) { // Relogin
-						cout << "Enter correct username and password." << endl;
-						cout << "Username: ";
-						cin >> a_username;
-						cout << "Password: ";
-						cin >> a_pwd;
-					}
-					break;
+				}
+				break;
 			case 9:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
@@ -735,7 +710,6 @@ int main() {
 				return 0;
 			default:
 				cout << "Invalid Option" << endl;
-				}
 			}
 		}
 		else if (check_class(LW_DB, username) == 3) {		// Student Menu
@@ -756,8 +730,6 @@ int main() {
 			cout << "4. Search All Courses" << endl;
 			cout << "5. Search Course Based on Parameter" << endl;
 			cout << "6. Logout" << endl;
-			cout << "7. Check Conflict" << endl;
-			cout << "8. Close LeopardWeb" << endl;
 			cout << "7. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
@@ -802,18 +774,6 @@ int main() {
 			case 6:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
-				while (1) {
-					// login screen
-					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-					cout << "Username: ";
-					cin >> s_username;
-					username = s_username;
-					cout << "Password: ";
-					cin >> s_pwd;
-					pwd = s_pwd;
-					if (student.Login(LW_DB, s_username, s_pwd)) { // Relogin
-						break;
-					}
 				// login screen
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 				cout << "Username: ";
@@ -830,10 +790,6 @@ int main() {
 				}
 				break;
 			case 7:
-				// Check Conflict
-				student.checkConflict(LW_DB, username);
-				break;
-			case 8: 
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
