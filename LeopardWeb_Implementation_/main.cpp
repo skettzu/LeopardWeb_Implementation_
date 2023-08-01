@@ -640,6 +640,7 @@ int main() {
 			cout << "8. Logout" << endl;
 			cout << "9. Close LeopardWeb" << endl;
 			cin >> user_input;
+			//check inputs
 			if (!cin)
 			{
 				cout << "Invalid Option" << endl;
