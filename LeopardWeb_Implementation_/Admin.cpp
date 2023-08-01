@@ -70,11 +70,46 @@ void Admin::addUser() {
 void Admin::removeUser() {
 	cout << "Admin's removeUser has been called" << endl;
 }
-void Admin::addStudent() {
-	cout << "Admin's addStudent has been called" << endl;
+void Admin::addStudent(sqlite3* DB, string user_info, string user_type) {
+	string insert_student, insert_instructor;
+	if (user_type == "Student") {
+		//Insert into student table
+		insert_student = "INSERT INTO STUDENT VALUES (" + user_info + ");";
+		int exit = sqlite3_exec(DB, insert_student.c_str(), callback, NULL, NULL);	// Execute the Query
+		if (exit != SQLITE_OK) {
+			cout << "Insert Error: " << sqlite3_errmsg(DB) << endl;
+		}
+		else {
+			cout << "Added Course Successfully!" << endl;
+		}
+	}
+	else if (user_type == "Instructor") {
+		insert_instructor = "INSERT INTO INSTRUCTOR VALUES (" + user_info + ");";
+		int exit = sqlite3_exec(DB, insert_instructor.c_str(), callback, NULL, NULL);	// Execute the Query
+		if (exit != SQLITE_OK) {
+			cout << "Insert Error: " << sqlite3_errmsg(DB) << endl;
+		}
+		else {
+			cout << "Added Course Successfully!" << endl;
+		}
+	}
 }
-void Admin::removeStudent() {
-	cout << "Admin's removeStudent has been called" << endl;
+void Admin::removeUser(sqlite3* DB, string in_id) {
+	string remove_user = "DELETE FROM STUDENT WHERE ID = " + in_id + ";";
+	int exit = sqlite3_exec(DB, remove_user.c_str(), callback, NULL, NULL);	// Execute the Query
+	if (exit != SQLITE_OK) {
+		remove_user = "DELETE FROM INSTRUCTOR WHERE ID = " + in_id + ";";
+		exit = sqlite3_exec(DB, remove_user.c_str(), callback, NULL, NULL);	// Execute the Query
+		if (exit != SQLITE_OK) {
+			cout << "Delete Error: " << sqlite3_errmsg(DB) << endl;
+		}
+		else {
+			cout << "RemovedSuccessfully!" << endl;
+		}
+	}
+	else {
+		cout << "Removed Successfully!" << endl;
+	}
 }
 void Admin::searchRoster() {
 	cout << "Admin's searchRoster has been called" << endl;

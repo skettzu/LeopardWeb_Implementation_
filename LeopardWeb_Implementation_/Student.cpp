@@ -44,11 +44,13 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 
 // method
 
-void Student::addCourse(sqlite3* DB, string user_crn) {
+void Student::addCourse(sqlite3* DB, string user_crn, string student_name, string in_crn, string in_title, string in_day, string in_location, string in_duration) {
 	//cout << "Student's addCourse has been called" << endl;
 	int exit = 1;
 	string insert_s_course;
-	insert_s_course = "INSERT INTO STUDENT_SCHEDULE SELECT CRN, Title, day, location, duration FROM COURSES WHERE CRN = " + user_crn + ";"; //Insert into student schedule query
+	//insert_s_course = "INSERT INTO STUDENT_SCHEDULE SELECT CRN, Title, day, location, duration FROM COURSES WHERE CRN = " + user_crn + ";"; //Insert into student schedule query
+	insert_s_course = "INSERT INTO STUDENT_SCHEDULE VALUES ("+in_crn+", '"+in_title+"', '" + in_day + "', '" + in_location + "', " + in_duration + ", '" + student_name + "'); ";
+
 	//cout << insert_s_course << endl;
 	exit = sqlite3_exec(DB, insert_s_course.c_str(), callback, NULL, NULL); //execute query
 	if (exit != SQLITE_OK) {
@@ -70,11 +72,20 @@ void Student::dropCourse(sqlite3* DB, string user_crn) {
 	else cout << "Delete Success" << endl;
 }
 
-void Student::printSchedule() {
-	cout << "Student's printSchedule has been called" << endl;
+
+void Student::printSchedule(sqlite3* DB, string student_name) {
+	int exit = 1;
+	//print failed
+	//string print_schedule = "SELECT CRN, Class, Day, Location, Duration FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
+	string print_schedule = "SELECT * FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
+	cout << print_schedule << endl;
+	exit = sqlite3_exec(DB, print_schedule.c_str(), callback, NULL, NULL);
+	if (exit != SQLITE_OK) {
+		cout << "Print Schedule Failed" << endl;
+	}
+	else cout << "Print Schdule Success" << endl;
 }
 // destructor
-
 Student::~Student() {
 
 }

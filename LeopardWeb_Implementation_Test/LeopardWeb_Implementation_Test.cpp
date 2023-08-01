@@ -6,6 +6,11 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace LeopardWebImplementationTest
 {
+	sqlite3* LW_DB;
+	int exit = 1;
+	// Don't forget to close db at the end of program
+	exit = sqlite3_open("LeopardWeb_Implementation.db", &LW_DB);
+
 	// User Tests
 	TEST_CLASS(User_Test)
 	{
@@ -13,6 +18,11 @@ namespace LeopardWebImplementationTest
 		
 		TEST_METHOD(TestMethod1)
 		{
+			User user();
+			string username = "bob123";
+			string pwd = "bob";
+			int result = 1;
+			Assert::AreEqual(1, user.Login(LW_DB, username, pwd)
 		}
 	};
 
@@ -23,9 +33,7 @@ namespace LeopardWebImplementationTest
 
 		TEST_METHOD(TestMethod1)
 		{
-			string username = "bob123";
-			string pwd = "bob";
-			int 
+
 		}
 	};
 
