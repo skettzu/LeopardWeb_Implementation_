@@ -589,22 +589,22 @@ int main() {
 					if (instructor.Login(LW_DB, i_username, i_pwd) == 1) { // Relogin
 						break;
 					}
-				cout << "Logged out!" << endl;
-				// login screen
-				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-				cout << "Username: ";
-				cin >> i_username;
-				username = i_username;
-				cout << "Password: ";
-				cin >> i_pwd;
-				while (instructor.Login(LW_DB, i_username, i_pwd) == 0) { // Relogin
-					cout << "Enter correct username and password." << endl;
+					cout << "Logged out!" << endl;
+					// login screen
+					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 					cout << "Username: ";
 					cin >> i_username;
+					username = i_username;
 					cout << "Password: ";
 					cin >> i_pwd;
-				}
-				break;
+					while (instructor.Login(LW_DB, i_username, i_pwd) == 0) { // Relogin
+						cout << "Enter correct username and password." << endl;
+						cout << "Username: ";
+						cin >> i_username;
+						cout << "Password: ";
+						cin >> i_pwd;
+					}
+					break;
 			case 7:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
@@ -612,6 +612,7 @@ int main() {
 				return 0;
 			default:
 				cout << "Invalid Option" << endl;
+				}
 			}
 		}
 		else if (check_class(LW_DB, username) == 2) {		// Admin Menu
@@ -625,8 +626,8 @@ int main() {
 			string user_crn;
 			string user_parameter;
 			string in_student, in_instructor, user_type, user_id;
-	
-			
+
+
 			cout << "1. Add Course from System" << endl;
 			cout << "2. Remove Course from System" << endl;
 			cout << "3. Search All Courses" << endl;
@@ -652,7 +653,7 @@ int main() {
 				cout << "What is the CRN, 'Title', 'Department', Time, 'Day', 'Semester', year, credit, 'location', duration, sections for your course?" << endl;
 				cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
 				cin.ignore();
-				getline(cin, in_course);	
+				getline(cin, in_course);
 				user.addCourse(LW_DB, in_course);
 				break;
 			case 2:
@@ -713,20 +714,20 @@ int main() {
 					if (user.Login(LW_DB, a_username, a_pwd) == 1) { // Relogin
 						break;
 					}
-				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-				cout << "Username: ";
-				cin >> a_username;
-				username = a_username;
-				cout << "Password: ";
-				cin >> a_pwd;
-				while (user.Login(LW_DB, a_username, a_pwd) == 0) { // Relogin
-					cout << "Enter correct username and password." << endl;
+					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 					cout << "Username: ";
 					cin >> a_username;
+					username = a_username;
 					cout << "Password: ";
 					cin >> a_pwd;
-				}
-				break;
+					while (user.Login(LW_DB, a_username, a_pwd) == 0) { // Relogin
+						cout << "Enter correct username and password." << endl;
+						cout << "Username: ";
+						cin >> a_username;
+						cout << "Password: ";
+						cin >> a_pwd;
+					}
+					break;
 			case 9:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
@@ -734,6 +735,7 @@ int main() {
 				return 0;
 			default:
 				cout << "Invalid Option" << endl;
+				}
 			}
 		}
 		else if (check_class(LW_DB, username) == 3) {		// Student Menu

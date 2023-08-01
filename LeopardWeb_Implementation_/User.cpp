@@ -125,7 +125,6 @@ int User::Login(sqlite3* LW_DB, string usr, string pwd) {
 		return 1;
 	}
 }
-
 // destructor
 
 User::~User() {
