@@ -512,8 +512,12 @@ int main() {
 	cin >> username;
 	cout << "Password: ";
 	cin >> pwd;
-	if (default_usr.Login(LW_DB, username, pwd) == 0) {	// check credential using sqlite3_column_int()
-		return 0;
+	while (default_usr.Login(LW_DB, username, pwd) == 0) {	// check credential using sqlite3_column_int()
+		cout << "Enter correct username and password." << endl;
+		cout << "Username: ";
+		cin >> username;
+		cout << "Password: ";
+		cin >> pwd;
 	}
 	// display menu according to User Type
 	int user_input = 10;
@@ -580,8 +584,13 @@ int main() {
 				username = i_username;
 				cout << "Password: ";
 				cin >> i_pwd;
-				pwd = i_pwd;
-				instructor.Login(LW_DB, i_username, i_pwd); // Relogin
+				while (instructor.Login(LW_DB, i_username, i_pwd) == 0) { // Relogin
+					cout << "Enter correct username and password." << endl;
+					cout << "Username: ";
+					cin >> i_username;
+					cout << "Password: ";
+					cin >> i_pwd;
+				}
 				break;
 			case 7:
 				// Close program
@@ -611,8 +620,9 @@ int main() {
 			cout << "4. Search Course Based on Parameter" << endl;
 			cout << "5. Add Student/Instructor to System" << endl;
 			cout << "6. Remove Student/Instructor from System" << endl;
-			cout << "7. Logout" << endl;
-			cout << "8. Close LeopardWeb" << endl;
+			cout << "7. Search and Print Roster" << endl;
+			cout << "8. Logout" << endl;
+			cout << "9. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
 			{
@@ -672,6 +682,9 @@ int main() {
 				user.removeUser(LW_DB, user_id);
 				break;
 			case 7:
+				user.searchRoster(LW_DB);
+				break;
+			case 8:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
@@ -681,10 +694,15 @@ int main() {
 				username = a_username;
 				cout << "Password: ";
 				cin >> a_pwd;
-				pwd = a_pwd;
-				user.Login(LW_DB, a_username, a_pwd); // Relogin
+				while (user.Login(LW_DB, a_username, a_pwd) == 0) { // Relogin
+					cout << "Enter correct username and password." << endl;
+					cout << "Username: ";
+					cin >> a_username;
+					cout << "Password: ";
+					cin >> a_pwd;
+				}
 				break;
-			case 8:
+			case 9:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
@@ -708,10 +726,10 @@ int main() {
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Print Schedule" << endl;
-			cout << "3. Search All Courses" << endl;
-			cout << "4. Search Course Based on Parameter" << endl;
-			cout << "5. Logout" << endl;
-			cout << "6. Close LeopardWeb" << endl;
+			cout << "4. Search All Courses" << endl;
+			cout << "5. Search Course Based on Parameter" << endl;
+			cout << "6. Logout" << endl;
+			cout << "7. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
 			{
@@ -733,14 +751,14 @@ int main() {
 				//cout << crn + title + day + location + duration << endl;
 				student.addCourse(LW_DB, user_crn, username, crn, title, day, location, duration);
 				break;
-			case 3:
-				student.printSchedule(LW_DB, username);
-				break;
 			case 2:
 				//student drop course from schedule
 				cout << "Enter CRN to drop course: ";
 				cin >> user_crn;
-				student.dropCourse(LW_DB,user_crn);
+				student.dropCourse(LW_DB, user_crn);
+				break;
+			case 3:
+				student.printSchedule(LW_DB, username);
 				break;
 			case 4:
 				//student search all course
@@ -748,7 +766,6 @@ int main() {
 				break;
 			case 5:
 				//student search course by parameter
-
 				cout << "Enter parameter to seach course: ";
 				cin >> user_parameter;
 				student.searchByParameter(LW_DB, user_parameter);
@@ -763,8 +780,13 @@ int main() {
 				username = s_username;
 				cout << "Password: ";
 				cin >> s_pwd;
-				pwd = s_pwd;
-				student.Login(LW_DB, s_username, s_pwd); // Relogin
+				while (student.Login(LW_DB, s_username, s_pwd) == 0) { // Relogin
+					cout << "Enter correct username and password." << endl;
+					cout << "Username: ";
+					cin >> s_username;
+					cout << "Password: ";
+					cin >> s_pwd;
+				}
 				break;
 			case 7: 
 				// Close program

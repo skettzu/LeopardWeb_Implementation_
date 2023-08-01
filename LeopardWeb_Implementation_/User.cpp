@@ -72,14 +72,14 @@ void User::searchByParameter(sqlite3* DB, string user_parameter) {
 	int exit = 1;
 	//string search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "' OR CRN = " + user_parameter + " OR time = " + user_parameter + " OR year = " + user_parameter + " OR credits = " + user_parameter + "; ");
 	//search for integer parameter
-	string search_parameter = ("SELECT * FROM COURSES WHERE CRN = " + user_parameter + " OR time = " + user_parameter + " OR year = " + user_parameter + " OR credits = " + user_parameter + "; ");
-	//cout << search_parameter << endl;
+	string search_parameter = ("SELECT * FROM COURSES WHERE CRN = " + user_parameter + " OR time = " + user_parameter + " OR year = " + user_parameter + " OR credits = " + user_parameter + " OR duration = "+ user_parameter +" OR sections = "+ user_parameter +";");
+	cout << search_parameter << endl;
 	exit = sqlite3_exec(DB, search_parameter.c_str(), callback, NULL, NULL);
 
 	if (exit != SQLITE_OK) {
 		//cout << "Search Error" << endl;
 		//search for string parameter
-		search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "';");
+		search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "' OR location = '" + user_parameter +"'; ");
 		//cout << search_parameter << endl;
 		exit = sqlite3_exec(DB, search_parameter.c_str(), callback, NULL, NULL);
 		
