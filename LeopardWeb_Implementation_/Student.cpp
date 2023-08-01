@@ -76,7 +76,8 @@ void Student::dropCourse(sqlite3* DB, string user_crn) {
 void Student::printSchedule(sqlite3* DB, string student_name) {
 	int exit = 1;
 	//print failed
-	string print_schedule = "SELECT CRN, Class, Day, Location, Duration FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
+	//string print_schedule = "SELECT CRN, Class, Day, Location, Duration FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
+	string print_schedule = "SELECT * FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
 	cout << print_schedule << endl;
 	exit = sqlite3_exec(DB, print_schedule.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
