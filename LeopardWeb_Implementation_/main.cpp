@@ -576,7 +576,6 @@ int main() {
 				break;
 			case 6:
 				//log out	// By Derek
-<<<<<<< HEAD
 				while (1) {
 					cout << "Logged out!" << endl;
 					// login screen
@@ -590,7 +589,6 @@ int main() {
 					if (instructor.Login(LW_DB, i_username, i_pwd) == 1) { // Relogin
 						break;
 					}
-=======
 				cout << "Logged out!" << endl;
 				// login screen
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
@@ -605,7 +603,6 @@ int main() {
 					cin >> i_username;
 					cout << "Password: ";
 					cin >> i_pwd;
->>>>>>> huy
 				}
 				break;
 			case 7:
@@ -705,7 +702,6 @@ int main() {
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
-<<<<<<< HEAD
 				while (1) {
 					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 					cout << "Username: ";
@@ -717,7 +713,6 @@ int main() {
 					if (user.Login(LW_DB, a_username, a_pwd) == 1) { // Relogin
 						break;
 					}
-=======
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 				cout << "Username: ";
 				cin >> a_username;
@@ -730,7 +725,6 @@ int main() {
 					cin >> a_username;
 					cout << "Password: ";
 					cin >> a_pwd;
->>>>>>> huy
 				}
 				break;
 			case 9:
@@ -760,12 +754,9 @@ int main() {
 			cout << "4. Search All Courses" << endl;
 			cout << "5. Search Course Based on Parameter" << endl;
 			cout << "6. Logout" << endl;
-<<<<<<< HEAD
 			cout << "7. Check Conflict" << endl;
 			cout << "8. Close LeopardWeb" << endl;
-=======
 			cout << "7. Close LeopardWeb" << endl;
->>>>>>> huy
 			cin >> user_input;
 			if (!cin)
 			{
@@ -809,7 +800,6 @@ int main() {
 			case 6:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
-<<<<<<< HEAD
 				while (1) {
 					// login screen
 					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
@@ -822,7 +812,6 @@ int main() {
 					if (student.Login(LW_DB, s_username, s_pwd)) { // Relogin
 						break;
 					}
-=======
 				// login screen
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 				cout << "Username: ";
@@ -836,7 +825,6 @@ int main() {
 					cin >> s_username;
 					cout << "Password: ";
 					cin >> s_pwd;
->>>>>>> huy
 				}
 				break;
 			case 7:
