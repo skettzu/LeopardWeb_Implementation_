@@ -572,16 +572,20 @@ int main() {
 				break;
 			case 6:
 				//log out	// By Derek
-				cout << "Logged out!" << endl;
-				// login screen
-				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-				cout << "Username: ";
-				cin >> i_username;
-				username = i_username;
-				cout << "Password: ";
-				cin >> i_pwd;
-				pwd = i_pwd;
-				instructor.Login(LW_DB, i_username, i_pwd); // Relogin
+				while (1) {
+					cout << "Logged out!" << endl;
+					// login screen
+					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+					cout << "Username: ";
+					cin >> i_username;
+					username = i_username;
+					cout << "Password: ";
+					cin >> i_pwd;
+					pwd = i_pwd;
+					if (instructor.Login(LW_DB, i_username, i_pwd) == 1) { // Relogin
+						break;
+					}
+				}
 				break;
 			case 7:
 				// Close program
@@ -675,14 +679,18 @@ int main() {
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
-				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-				cout << "Username: ";
-				cin >> a_username;
-				username = a_username;
-				cout << "Password: ";
-				cin >> a_pwd;
-				pwd = a_pwd;
-				user.Login(LW_DB, a_username, a_pwd); // Relogin
+				while (1) {
+					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+					cout << "Username: ";
+					cin >> a_username;
+					username = a_username;
+					cout << "Password: ";
+					cin >> a_pwd;
+					pwd = a_pwd;
+					if (user.Login(LW_DB, a_username, a_pwd) == 1) { // Relogin
+						break;
+					}
+				}
 				break;
 			case 8:
 				// Close program
@@ -708,10 +716,11 @@ int main() {
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Print Schedule" << endl;
-			cout << "3. Search All Courses" << endl;
-			cout << "4. Search Course Based on Parameter" << endl;
-			cout << "5. Logout" << endl;
-			cout << "6. Close LeopardWeb" << endl;
+			cout << "4. Search All Courses" << endl;
+			cout << "5. Search Course Based on Parameter" << endl;
+			cout << "6. Logout" << endl;
+			cout << "7. Check Conflict" << endl;
+			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
 			{
@@ -756,17 +765,25 @@ int main() {
 			case 6:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
-				// login screen
-				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
-				cout << "Username: ";
-				cin >> s_username;
-				username = s_username;
-				cout << "Password: ";
-				cin >> s_pwd;
-				pwd = s_pwd;
-				student.Login(LW_DB, s_username, s_pwd); // Relogin
+				while (1) {
+					// login screen
+					cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
+					cout << "Username: ";
+					cin >> s_username;
+					username = s_username;
+					cout << "Password: ";
+					cin >> s_pwd;
+					pwd = s_pwd;
+					if (student.Login(LW_DB, s_username, s_pwd)) { // Relogin
+						break;
+					}
+				}
 				break;
-			case 7: 
+			case 7:
+				// Check Conflict
+				student.checkConflict(LW_DB, username);
+				break;
+			case 8: 
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;

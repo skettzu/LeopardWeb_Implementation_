@@ -1,6 +1,7 @@
 #include "Student.h"
 
 using std::endl;
+using std::string;
 
 // constructor
 
@@ -43,7 +44,124 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 }
 
 // method
+string Student::get_day(sqlite3* LW_DB, string usr_name) {
+	string query = "SELECT Day FROM STUDENT_SCHEDULE WHERE Student = '" + usr_name +"';";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Course Doesn't exist" << endl;
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	while (1) {
+		rc = sqlite3_step(stmt); // Step through resulting row
+		if (rc != SQLITE_ROW) {
+			cout << endl;
+			break;
+		}
+		length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+		size = length * sizeof(unsigned char);  // calculate the total size
+		result = result + " ";
+		for (int i = 0; i < size; i++) {
+			char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+			result = result + temp;	// append temp to resulting string
+		}
+	}
+	
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
 
+string Student::get_time(sqlite3* LW_DB, string usr_name) {
+	string query = "SELECT time FROM STUDENT_SCHEDULE WHERE Student = '" + usr_name + "';";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Course Doesn't exist" << endl;
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	while (1) {
+		rc = sqlite3_step(stmt); // Step through resulting row
+		if (rc != SQLITE_ROW) {
+			cout << endl;
+			break;
+		}
+		length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+		size = length * sizeof(unsigned char);  // calculate the total size
+		result = result + " ";
+		for (int i = 0; i < size; i++) {
+			char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+			result = result + temp;	// append temp to resulting string
+		}
+	}
+
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
+
+string Student::get_crn(sqlite3* LW_DB, string usr_name) {
+	string query = "SELECT CRN FROM STUDENT_SCHEDULE WHERE Student = '" + usr_name + "';";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Course Doesn't exist" << endl;
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	while (1) {
+		rc = sqlite3_step(stmt); // Step through resulting row
+		if (rc != SQLITE_ROW) {
+			cout << endl;
+			break;
+		}
+		length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+		size = length * sizeof(unsigned char);  // calculate the total size
+		result = result + " ";
+		for (int i = 0; i < size; i++) {
+			char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+			result = result + temp;	// append temp to resulting string
+		}
+	}
+
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
+
+void Student::checkConflict(sqlite3* DB, string user_name) {
+	// Only need to check if day is the same 
+	// If other start time <= start time < other end time there is conflict 
+	cout << "The Day is " << this->get_day(DB, user_name) << endl;
+	cout << "The time is " << this->get_time(DB, user_name) << endl;
+	cout << "The CRNs is " << this->get_crn(DB, user_name) << endl;
+}
 void Student::addCourse(sqlite3* DB, string user_crn, string student_name, string in_crn, string in_title, string in_day, string in_location, string in_duration) {
 	//cout << "Student's addCourse has been called" << endl;
 	int exit = 1;
