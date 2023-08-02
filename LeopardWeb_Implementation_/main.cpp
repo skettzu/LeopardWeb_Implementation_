@@ -172,7 +172,7 @@ int get_WID(sqlite3* LW_DB, string usr) {	// By Derek
 	return result;
 }
 
-string get_crn(sqlite3* LW_DB, string crn) {
+string get_crn(sqlite3* LW_DB, string crn) {	
 	string query = "SELECT CRN FROM COURSES WHERE CRN = " + crn + ";";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -181,7 +181,7 @@ string get_crn(sqlite3* LW_DB, string crn) {
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
 	if (rc != SQLITE_ROW) {
-		cout << "Course Doesn't exist" << endl;
+		cout << "Course Doesn't exist" << endl;	
 	}
 	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
 	int size = length * sizeof(unsigned char);  // calculate the total size
@@ -204,7 +204,7 @@ string get_title(sqlite3* LW_DB, string crn) {
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
 	if (rc != SQLITE_ROW) {
-		cout << "Course Doesn't exist" << endl;
+		cout << "Course Doesn't exist" << endl;	
 	}
 	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
 	int size = length * sizeof(unsigned char);  // calculate the total size
@@ -227,7 +227,7 @@ string get_day(sqlite3* LW_DB, string crn) {
 	}
 	rc = sqlite3_step(stmt); // Execute the statement
 	if (rc != SQLITE_ROW) {
-		cout << "Course Doesn't exist" << endl;
+		cout << "Course Doesn't exist" << endl;	
 	}
 	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
 	int size = length * sizeof(unsigned char);  // calculate the total size
@@ -349,7 +349,7 @@ void user_test_cases() {
 	else {
 		cout << "All Login Tests Passed!" << endl;
 	}
-
+	
 	// *********************End of Login Test Cases***********************
 
 	// Search All Courses Test
@@ -357,7 +357,7 @@ void user_test_cases() {
 	default_test.searchAllCourse(DB_Test);
 	// Search Courses Based on Parameter
 	// Expected:
-
+	
 	// Logout Test (DB Close)
 	// By: Derek
 	/*
@@ -376,7 +376,7 @@ void user_test_cases() {
 // Admin Test Cases
 void admin_test_cases() {
 	cout << endl << "*********** Admin Test Cases *************" << endl;
-
+	
 	Admin default_test("Jonathan", "Smith", 8888888);
 	// Add/Remove Test Cases:	By: Derek
 	// Test Case 1
@@ -384,7 +384,7 @@ void admin_test_cases() {
 	cout << "Admin add course to the system" << endl;
 	string default_course = "000000, 'default', 'default', 000, 'default', 'default', 0000, 0, 'default', 000, 0";
 	default_test.addCourse(DB_Test, default_course);
-
+	
 	cout << "Admin remove course from the system" << endl;
 	default_test.removeCourse(DB_Test, 000000);
 	// Test Case 2
@@ -403,7 +403,7 @@ void admin_test_cases() {
 // Instructor Test Cases
 void prof_test_cases() {
 	cout << endl << "*********** Instructor Test Cases *************" << endl;
-
+	
 	User default_test("Jonathan", "Smith", 8888888);
 	//login test using instructor credential
 	string p_username = "hphan6";
@@ -440,7 +440,7 @@ void prof_test_cases() {
 void student_test_cases() {
 
 	cout << endl << "*********** Student Test Cases *************" << endl;
-
+	
 	User default_test("Jonathan", "Smith", 8888888);
 
 	//login using student credential
@@ -612,8 +612,10 @@ int main() {
 			string user_crn;
 			string user_parameter;
 			string in_student, in_instructor, user_type, user_id;
-
-
+			string user_name;
+			string title, day, location, duration;
+	
+			
 			cout << "1. Add Course from System" << endl;
 			cout << "2. Remove Course from System" << endl;
 			cout << "3. Search All Courses" << endl;
@@ -621,8 +623,9 @@ int main() {
 			cout << "5. Add Student/Instructor to System" << endl;
 			cout << "6. Remove Student/Instructor from System" << endl;
 			cout << "7. Search and Print Roster" << endl;
-			cout << "8. Logout" << endl;
-			cout << "9. Close LeopardWeb" << endl;
+			cout << "8. Link/Unlink Instructor/Student" << endl;
+			cout << "9. Logout" << endl;
+			cout << "10. Close LeopardWeb" << endl;
 			cin >> user_input;
 			//check inputs
 			if (!cin)
@@ -633,13 +636,11 @@ int main() {
 				continue;
 			}
 			switch (user_input) {
-			case 1:
-				int in_CRN, in_Time, in_yr, in_cred;	// By Derek
-				char in_Title, in_Day, in_Dept, in_Sem;
-				cout << "What is the CRN, 'Title', 'Department', Time, 'Day', 'Semester', year, credit, 'location', duration, sections for your course?" << endl;
+			case 1: // By Derek
+				cout << "What is the CRN, 'Title', 'Instructor', 'Department', Time, 'Day', 'Semester', year, credit, 'location', duration, sections for your course?" << endl;
 				cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
 				cin.ignore();
-				getline(cin, in_course);
+				getline(cin, in_course);	
 				user.addCourse(LW_DB, in_course);
 				break;
 			case 2:
@@ -686,6 +687,31 @@ int main() {
 				user.searchRoster(LW_DB);
 				break;
 			case 8:
+				cout << "Who do you want to link/unlink (S for student, I for instructor): ";
+				cin >> user_type;
+				if (user_type == "s" || user_type == "S") {
+					cout << "Enter username/email of student: ";
+					cin >> user_name;
+					cout << "Enter CRN to link/unlink student from course: ";
+					cin >> user_crn;
+					//get parameters for link student with courses
+					title = get_title(LW_DB, user_crn);
+					day = get_day(LW_DB, user_crn);
+					location = get_location(LW_DB, user_crn);
+					duration = get_duration(LW_DB, user_crn);
+
+					user.link_unlink_s(LW_DB, user_name, user_crn, title, day, location, duration);
+				}
+				else if (user_type == "i" || user_type == "I") {
+					cout << "Enter first name of instructor: ";
+					cin >> user_name;
+					cout << "Enter CRN to link/unlink instructor from course: ";
+					cin >> user_crn;
+					user.unlink_i(LW_DB, user_name, user_crn);
+				}
+				else cout << "Invalid Input" << endl;
+				break;
+			case 9:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
@@ -703,7 +729,7 @@ int main() {
 					cin >> a_pwd;
 				}
 				break;
-			case 9:
+			case 10:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
@@ -789,7 +815,7 @@ int main() {
 					cin >> s_pwd;
 				}
 				break;
-			case 7:
+			case 7: 
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;

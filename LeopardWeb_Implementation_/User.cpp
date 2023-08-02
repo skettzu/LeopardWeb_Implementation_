@@ -79,7 +79,7 @@ void User::searchByParameter(sqlite3* DB, string user_parameter) {
 	if (exit != SQLITE_OK) {
 		//cout << "Search Error" << endl;
 		//search for string parameter
-		search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "' OR location = '" + user_parameter +"'; ");
+		search_parameter = ("SELECT * FROM COURSES WHERE Title = '" + user_parameter + "' OR department = '" + user_parameter + "' OR day = '" + user_parameter + "' OR semester = '" + user_parameter + "' OR location = '" + user_parameter +"' OR Instructor = '"+ user_parameter +"'; ");
 		//cout << search_parameter << endl;
 		exit = sqlite3_exec(DB, search_parameter.c_str(), callback, NULL, NULL);
 		

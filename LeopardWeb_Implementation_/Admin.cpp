@@ -41,6 +41,28 @@ Admin::Admin(string first, string last, int in_ID) {
 	last_name = last;
 	ID = in_ID;
 }
+string get_instructor(sqlite3* LW_DB, string crn) {
+	string query = "SELECT Instructor FROM COURSES WHERE CRN = " + crn + ";";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Course Doesn't exist" << endl;
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
 
 // method
 
@@ -117,6 +139,46 @@ void Admin::searchRoster(sqlite3* DB) {
 	else cout << "Print Success" << endl;
 }
 
+void Admin::link_unlink_s(sqlite3* DB, string user_name, string crn, string in_title, string in_day, string in_location, string in_duration){
+	string link_s;
+	int exit = 1;
+	link_s = "DELETE FROM STUDENT_SCHEDULE WHERE CRN = " + crn + " AND Student = '" + user_name + "';";
+	exit = sqlite3_exec(DB, link_s.c_str(), callback, NULL, NULL);
+	if (exit != SQLITE_OK) {
+		//cout << "Unlink Failed" << endl;
+		link_s = "INSERT INTO STUDENT_SCHEDULE VALUES (" + crn + ", '" + in_title + "', '" + in_day + "', '" + in_location + "', " + in_duration + ", '" + user_name + "'); ";
+		exit = sqlite3_exec(DB, link_s.c_str(), callback, NULL, NULL);
+		if (exit != SQLITE_OK) {
+			cout << "Link and unlink failed" << endl;
+		}
+		else cout << "Link Success" << endl;
+	}
+	else cout << "Unlink Success" << endl;
+}
+
+void Admin::unlink_i(sqlite3* DB, string user_name, string crn) {
+	string unlink;
+	string link;
+	string instructor_name = get_instructor(DB, crn);
+	//cout << instructor_name << endl;
+	if (instructor_name != "N/A"){
+		unlink = "UPDATE COURSES SET Instructor = 'N/A' WHERE CRN = " + crn + " AND Instructor = '" + user_name + "';";
+		int exit = sqlite3_exec(DB, unlink.c_str(), callback, NULL, NULL);
+		if (exit != SQLITE_OK) {
+			cout << "Unlink failed" << endl;
+		}
+		else cout << "Unlink Success" << endl;
+	}
+	else if (instructor_name == "N/A") {
+		link = "UPDATE COURSES SET Instructor = '" + user_name + "' WHERE CRN = " + crn + ";";
+		int exit = sqlite3_exec(DB, link.c_str(), callback, NULL, NULL);
+		//cout << link << endl;
+		if (exit != SQLITE_OK) {
+			cout << "Link failed: " << endl;
+		}
+		else cout << "Link Success" << endl;
+	}
+}
 
 // destructor
 
