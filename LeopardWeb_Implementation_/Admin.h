@@ -14,6 +14,7 @@ public:
 	Admin(string first, string last, int ID);
 
 	// method
+	string get_instructor(sqlite3* LW_DB, string crn);
 	void addCourse(sqlite3* DB, string course);
 	void removeCourse(sqlite3* DB, int CRN);
 	void addStudent(sqlite3* DB, string user_info, string user_type);

@@ -41,7 +41,7 @@ Admin::Admin(string first, string last, int in_ID) {
 	last_name = last;
 	ID = in_ID;
 }
-string get_instructor(sqlite3* LW_DB, string crn) {
+string Admin::get_instructor(sqlite3* LW_DB, string crn) {
 	string query = "SELECT Instructor FROM COURSES WHERE CRN = " + crn + ";";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
 	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
@@ -159,7 +159,7 @@ void Admin::link_unlink_s(sqlite3* DB, string user_name, string crn, string in_t
 void Admin::unlink_i(sqlite3* DB, string user_name, string crn) {
 	string unlink;
 	string link;
-	string instructor_name = get_instructor(DB, crn);
+	string instructor_name = this->get_instructor(DB, crn);
 	//cout << instructor_name << endl;
 	if (instructor_name != "N/A"){
 		unlink = "UPDATE COURSES SET Instructor = 'N/A' WHERE CRN = " + crn + " AND Instructor = '" + user_name + "';";
