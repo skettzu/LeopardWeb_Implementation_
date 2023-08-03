@@ -526,6 +526,7 @@ int main() {
 			string i_username;
 			string i_pwd;
 			string fname = get_fname(LW_DB, username); //get first name of the instructor
+			//cout << "First name: " << fname << endl;
 			string lname = get_lname(LW_DB, username); //get last name of the instructor
 			int WID = get_WID(LW_DB, username); // get WID of the instructor
 			Instructor instructor(fname, lname, WID); //create an instructor object
@@ -533,10 +534,11 @@ int main() {
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Assemble and Print Course Roster" << endl;
-			cout << "4. Search All Courses" << endl;
-			cout << "5. Search Course Based on Parameter" << endl;
-			cout << "6. Logout" << endl;
-			cout << "7. Close LeopardWeb" << endl;
+			cout << "4. Print Teaching Schedule" << endl;
+			cout << "5. Search All Courses" << endl;
+			cout << "6. Search Course Based on Parameter" << endl;
+			cout << "7. Logout" << endl;
+			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
 			string user_crn;
 			string user_parameter;
@@ -565,16 +567,19 @@ int main() {
 				instructor.printRoster(LW_DB);
 				break;
 			case 4:
+				instructor.printSchedule(LW_DB, fname);
+				break;
+			case 5:
 				//instructor search all course
 				instructor.searchAllCourse(LW_DB);
 				break;
-			case 5:
+			case 6:
 				//instructor search course by parameter
 				cout << "Enter parameter to seach course: ";
 				cin >> user_parameter;
 				instructor.searchByParameter(LW_DB, user_parameter);
 				break;
-			case 6:
+			case 7:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
@@ -592,7 +597,7 @@ int main() {
 					cin >> i_pwd;
 				}
 				break;
-			case 7:
+			case 8:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
