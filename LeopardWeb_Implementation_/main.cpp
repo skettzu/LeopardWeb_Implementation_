@@ -627,6 +627,7 @@ int main() {
 			case 7:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
+				instructor.~Instructor();
 				// login screen
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 				cout << "Username: ";
@@ -764,6 +765,7 @@ int main() {
 			case 9:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
+				user.~Admin();
 				// login screen
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 				cout << "Username: ";
@@ -852,6 +854,7 @@ int main() {
 			case 6:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
+				student.~Student();
 				// login screen
 				cout << "Welcome to LeopardWeb! Please Login Using Your Credentials: " << endl;
 				cout << "Username: ";
