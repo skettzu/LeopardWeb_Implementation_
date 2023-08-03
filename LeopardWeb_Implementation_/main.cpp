@@ -286,6 +286,51 @@ string get_duration(sqlite3* LW_DB, string crn) {
 	sqlite3_finalize(stmt); // Finalize the statement
 	return result;
 }
+string get_starttime(sqlite3* LW_DB, string crn) {
+	string query = "SELECT starttime FROM COURSES WHERE CRN = " + crn + ";";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Course Doesn't exist" << endl;
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
+string get_endtime(sqlite3* LW_DB, string crn) {
+	string query = "SELECT endtime FROM COURSES WHERE CRN = " + crn + ";";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Course Doesn't exist" << endl;
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
+
 
 // User Test Cases
 void user_test_cases() {
@@ -526,6 +571,7 @@ int main() {
 			string i_username;
 			string i_pwd;
 			string fname = get_fname(LW_DB, username); //get first name of the instructor
+			//cout << "First name: " << fname << endl;
 			string lname = get_lname(LW_DB, username); //get last name of the instructor
 			int WID = get_WID(LW_DB, username); // get WID of the instructor
 			Instructor instructor(fname, lname, WID); //create an instructor object
@@ -533,10 +579,11 @@ int main() {
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Assemble and Print Course Roster" << endl;
-			cout << "4. Search All Courses" << endl;
-			cout << "5. Search Course Based on Parameter" << endl;
-			cout << "6. Logout" << endl;
-			cout << "7. Close LeopardWeb" << endl;
+			cout << "4. Print Teaching Schedule" << endl;
+			cout << "5. Search All Courses" << endl;
+			cout << "6. Search Course Based on Parameter" << endl;
+			cout << "7. Logout" << endl;
+			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
 			string user_crn;
 			string user_parameter;
@@ -565,16 +612,19 @@ int main() {
 				instructor.printRoster(LW_DB);
 				break;
 			case 4:
+				instructor.printSchedule(LW_DB, fname);
+				break;
+			case 5:
 				//instructor search all course
 				instructor.searchAllCourse(LW_DB);
 				break;
-			case 5:
+			case 6:
 				//instructor search course by parameter
 				cout << "Enter parameter to seach course: ";
 				cin >> user_parameter;
 				instructor.searchByParameter(LW_DB, user_parameter);
 				break;
-			case 6:
+			case 7:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				// login screen
@@ -592,7 +642,7 @@ int main() {
 					cin >> i_pwd;
 				}
 				break;
-			case 7:
+			case 8:
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;
@@ -637,7 +687,7 @@ int main() {
 			}
 			switch (user_input) {
 			case 1: // By Derek
-				cout << "What is the CRN, 'Title', 'Instructor', 'Department', Time, 'Day', 'Semester', year, credit, 'location', duration, sections for your course?" << endl;
+				cout << "What is the CRN, 'Title', 'Instructor', 'Department', Start time, 'Day', 'Semester', year, credit, 'location', duration, sections, end time for your course?" << endl;
 				cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
 				cin.ignore();
 				getline(cin, in_course);	
@@ -748,7 +798,7 @@ int main() {
 			Student student(fname, lname, WID); //create student object
 			string user_crn;
 			string user_parameter;
-			string crn, title, day, location, duration;
+			string crn, title, day, location, duration, start_time, end_time;
 
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
@@ -776,8 +826,10 @@ int main() {
 				day = get_day(LW_DB, user_crn);
 				location = get_location(LW_DB, user_crn);
 				duration = get_duration(LW_DB, user_crn);
+				start_time = get_starttime(LW_DB, user_crn);
+				end_time = get_endtime(LW_DB, user_crn);
 				//cout << crn + title + day + location + duration << endl;
-				student.addCourse(LW_DB, user_crn, username, crn, title, day, location, duration);
+				student.addCourse(LW_DB, user_crn, username, crn, title, day, location, duration, start_time, end_time);
 				break;
 			case 2:
 				//student drop course from schedule

@@ -12,7 +12,7 @@ public:
 	Student(string first, string last);
 	Student(string first, string last, int ID);
 	// method
-	void addCourse(sqlite3* DB, string user_crn, string student_name, string in_crn, string in_title, string in_day, string in_location, string in_duration);
+	void addCourse(sqlite3* DB, string user_crn, string student_name, string in_crn, string in_title, string in_day, string in_location, string in_duration, string start, string end);
 	void dropCourse(sqlite3* DB, string user_crn);
 	void printSchedule(sqlite3* DB, string student_name);
 	void checkConflict(sqlite3* DB, string user_name);

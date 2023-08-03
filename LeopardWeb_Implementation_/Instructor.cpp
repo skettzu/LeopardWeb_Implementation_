@@ -42,11 +42,15 @@ static int callback(void* data, int argc, char** argv, char** azColName) {
 	return 0;
 }
 
-void Instructor::printSchedule() {
-	cout << "Instructor's printSchedule has been called" << endl;
-}
-void Instructor::printClassList() {
-	cout << "Instructor's printClassList has been called" << endl;
+void Instructor::printSchedule(sqlite3* DB, string i_name) {
+	//cout << "Instructor's printSchedule has been called" << endl;
+	string print_schedule = "SELECT * FROM COURSES WHERE Instructor = '" + i_name + "';";
+	cout << print_schedule << endl;
+	int exit = sqlite3_exec(DB, print_schedule.c_str(), callback, NULL, NULL);
+	if (exit != SQLITE_OK) {
+		cout << "Print Failed" << endl;
+	}
+	else cout << "Print Success" << endl;
 }
 
 void Instructor::addCourse(sqlite3* DB, string user_crn) {
