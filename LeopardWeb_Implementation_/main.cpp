@@ -638,6 +638,7 @@ int main() {
 					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> i_username;
+					username = i_username;
 					cout << "Password: ";
 					cin >> i_pwd;
 				}
@@ -775,6 +776,7 @@ int main() {
 					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> a_username;
+					username = a_username;
 					cout << "Password: ";
 					cin >> a_pwd;
 				}
@@ -864,6 +866,7 @@ int main() {
 					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> s_username;
+					username = s_username;
 					cout << "Password: ";
 					cin >> s_pwd;
 				}
@@ -871,6 +874,7 @@ int main() {
 			case 7:
 				// Check conflicts
 				student.checkConflict(LW_DB, username);
+				break;
 			case 8: 
 				// Close program
 				sqlite3_close(LW_DB); // close the database

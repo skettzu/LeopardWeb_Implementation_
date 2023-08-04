@@ -1,7 +1,10 @@
 #include "Student.h"
+#include <vector>
+#include <algorithm>
 
 using std::endl;
 using std::string;
+using std::vector;
 
 int day_size;
 int time_size;
@@ -50,6 +53,32 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 }
 
 // method
+
+void swap(int* xp, int* yp)
+{
+	int temp = *xp;
+	*xp = *yp;
+	*yp = temp;
+}
+void bubbleSort(int arr[], int n)
+{
+	int i, j;
+	bool swapped;
+	for (i = 0; i < n - 1; i++) {
+		swapped = false;
+		for (j = 0; j < n - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				swap(&arr[j], &arr[j + 1]);
+				swapped = true;
+			}
+		}
+
+		// If no two elements were swapped by inner loop,
+		// then break
+		if (swapped == false)
+			break;
+	}
+}
 string Student::get_day(sqlite3* LW_DB, string usr_name) {
 	string query = "SELECT Day FROM STUDENT_SCHEDULE WHERE Student = '" + usr_name + "';";	// SQL statement selecting User's first name
 	sqlite3_stmt* stmt;
@@ -295,10 +324,8 @@ void Student::checkConflict(sqlite3* DB, string user_name) {
 	}
 	*/
 
-	/*
-	SOMETHING IS WRONG WITH PUSHING BACK INT INTO STRING, FIND OUT WHY
-	*/
 	temp_i = 0;
+	temp = "";
 	for (int j = 0; j < time_size; j++) {
 		if (tot_times[j] == ' ') {
 			times[temp_i] = temp;
@@ -306,15 +333,16 @@ void Student::checkConflict(sqlite3* DB, string user_name) {
 			temp_i++;
 			j++;
 		}
-		temp.push_back(tot_times[j]);
+		temp += (tot_times[j]);
 	}
-
+	/*
 	cout << "The times are:" << endl;
 	for (int i = 0; i < temp_i; i++) {
 		cout << times[i] << endl;
 	}
-
+	*/
 	temp_i = 0;
+	temp = "";
 	for (int j = 0; j < crn_size; j++) {
 		if (tot_crns[j] == ' ') {
 			CRNs[temp_i] = temp;
@@ -331,6 +359,7 @@ void Student::checkConflict(sqlite3* DB, string user_name) {
 	}
 	*/
 	temp_i = 0;
+	temp = "";
 	for (int j = 0; j < dur_size; j++) {
 		if (tot_durs[j] == ' ') {
 			durs[temp_i] = temp;
@@ -347,6 +376,7 @@ void Student::checkConflict(sqlite3* DB, string user_name) {
 	}
 	*/
 	temp_i = 0;
+	temp = "";
 	for (int j = 0; j < etime_size; j++) {
 		if (tot_etimes[j] == ' ') {
 			etimes[temp_i] = temp;
@@ -356,11 +386,12 @@ void Student::checkConflict(sqlite3* DB, string user_name) {
 		}
 		temp.push_back(tot_etimes[j]);
 	}
+	/*
 	cout << "The End times are:" << endl;
 	for (int i = 0; i < temp_i; i++) {
 		cout << etimes[i] << endl;
 	}
-
+	*/
 	// Start of Conflict Checking
 	// Columns: Day
 	// Rows: Indices of those with that day
@@ -398,16 +429,16 @@ void Student::checkConflict(sqlite3* DB, string user_name) {
 		}
 	}
 
-	cout << "Day Indices Table:" << endl;
+	/*cout << "Day Indices Table:" << endl;
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
 			cout << day_ind[i][j] << " ";
 		}
 		cout << endl;
 	}
-
+	*/
 	// Then using indices table check if there are time conflicts 
-	int CRN_ind[10] = { 1000,1000,1000,1000,1000,1000,1000,1000,1000,1000 };
+	int CRN_ind[20] = { 1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000 };
 	int CRN_i = 0;
 	// If other start time <= start time < other end time there is conflict
 	for (int i = 0; i < 5; i++) {
@@ -420,32 +451,49 @@ void Student::checkConflict(sqlite3* DB, string user_name) {
 			}
 			if ((stoi(times[day_ind[0][i]])) == (stoi(times[day_ind[j][i]]))) {		// if start times are the same
 				CRN_ind[CRN_i] = day_ind[j][i];
-				CRN_i++;
-				cout << "Index added " << endl;
+				CRN_ind[CRN_i + 1] = day_ind[0][i];
+				CRN_i = CRN_i + 2;
+				//cout << "Indices added " << endl;
 			}
 			if ((stoi(times[day_ind[0][i]]) > stoi(times[day_ind[j][i]])) && ((stoi(times[day_ind[0][i]]) < stoi(etimes[day_ind[j][i]])))) {		// if start time is within compared start time and compared end time
 				CRN_ind[CRN_i] = day_ind[j][i];
-				CRN_i++;
-				cout << "Index added " << endl;
+				CRN_ind[CRN_i + 1] = day_ind[0][i];
+				CRN_i = CRN_i + 2;
+				//cout << "Indices added " << endl;
 			}
 			if ((stoi(times[day_ind[j][i]]) > stoi(times[day_ind[0][i]])) && ((stoi(times[day_ind[j][i]]) < stoi(etimes[day_ind[0][i]])))) {		// if other start time is within this start time and this end time
 				CRN_ind[CRN_i] = day_ind[j][i];
-				CRN_i++;
-				cout << "Index added " << endl;
+				CRN_ind[CRN_i + 1] = day_ind[0][i];
+				CRN_i = CRN_i + 2;
+				//cout << "Indices added " << endl;
 			}
 		}
 	}
-	for (int i = 0; i < 10; i++) {
-		cout << "These are the following CRNs with conflicts: " << endl;
-		cout << CRNs[CRN_ind[i]];
+	vector<string> conflict_CRN;
+	cout << "These are the following CRNs with conflicts: " << endl;
+	for (int i = 0; i < 20; i++) {
+		if (CRN_ind[i] == 1000) {
+			break;
+		}
+		conflict_CRN.push_back(CRNs[CRN_ind[i]]);
 	}
+	std::sort(conflict_CRN.begin(), conflict_CRN.end());
+	auto it = std::unique(std::begin(conflict_CRN), std::end(conflict_CRN));
+	conflict_CRN.erase(it, conflict_CRN.end());
+	for (auto i : conflict_CRN)
+		if (i == "") {
+			continue;
+		}
+		else {
+			cout << i << endl;
+		}
 }
 void Student::addCourse(sqlite3* DB, string user_crn, string student_name, string in_crn, string in_title, string in_day, string in_location, string in_duration, string start, string end) {
 	//cout << "Student's addCourse has been called" << endl;
 	int exit = 1;
 	string insert_s_course;
 	//insert_s_course = "INSERT INTO STUDENT_SCHEDULE SELECT CRN, Title, day, location, duration FROM COURSES WHERE CRN = " + user_crn + ";"; //Insert into student schedule query
-	insert_s_course = "INSERT INTO STUDENT_SCHEDULE VALUES ("+in_crn+", '"+in_title+"', '" + in_day + "', '" + in_location + "', " + in_duration + ", '" + student_name + "', " + start + ", " + end + "); ";
+	insert_s_course = "INSERT INTO STUDENT_SCHEDULE VALUES (" + in_crn + ", '" + in_title + "', '" + in_day + "', '" + in_location + "', " + in_duration + ", '" + student_name + "', " + start + ", " + end + "); ";
 
 	//cout << insert_s_course << endl;
 	exit = sqlite3_exec(DB, insert_s_course.c_str(), callback, NULL, NULL); //execute query
