@@ -712,23 +712,7 @@ int main() {
 				user.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 5:
-				cout << "Who do you want to add to the system? (I for Instructor, S for Student): ";
-				cin >> user_type;
-				if (user_type == "S" || user_type == "s") {
-					cout << "Enter Student Information (ID, Name, Surname, Grad Year, Major and Email): " << endl;
-					cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
-					cin.ignore();
-					getline(cin, in_student);
-					user.addStudent(LW_DB, in_student, "Student");
-				}
-				else if (user_type == "I" || user_type == "i") {
-					cout << "Enter Instructor Information (ID, Name, Surname, Title, Hire Year, Dept, and Email): " << endl;
-					cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
-					cin.ignore();
-					getline(cin, in_instructor);
-					user.addStudent(LW_DB, in_instructor, "Instructor");
-				}
-				else cout << "Invalid Input" << endl;
+				user.addUser(LW_DB);
 				break;
 			case 6:
 				cout << "Enter ID of user you want to remove from the system: ";
