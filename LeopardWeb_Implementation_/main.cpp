@@ -639,6 +639,7 @@ int main() {
 					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> i_username;
+					username = i_username;
 					cout << "Password: ";
 					cin >> i_pwd;
 				}
@@ -777,6 +778,7 @@ int main() {
 					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> a_username;
+					username = a_username;
 					cout << "Password: ";
 					cin >> a_pwd;
 				}
@@ -808,7 +810,8 @@ int main() {
 			cout << "4. Search All Courses" << endl;
 			cout << "5. Search Course Based on Parameter" << endl;
 			cout << "6. Logout" << endl;
-			cout << "7. Close LeopardWeb" << endl;
+			cout << "7. Check Conflicts" << endl;
+			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
 			{
@@ -866,11 +869,16 @@ int main() {
 					cout << "Enter correct username and password." << endl;
 					cout << "Username: ";
 					cin >> s_username;
+					username = s_username;
 					cout << "Password: ";
 					cin >> s_pwd;
 				}
 				break;
-			case 7: 
+			case 7:
+				// Check conflicts
+				student.checkConflict(LW_DB, username);
+				break;
+			case 8: 
 				// Close program
 				sqlite3_close(LW_DB); // close the database
 				cout << "LeopardWeb Closed!" << endl;

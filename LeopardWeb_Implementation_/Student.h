@@ -19,6 +19,8 @@ public:
 	string get_day(sqlite3* LW_DB, string usr_name);
 	string get_time(sqlite3* LW_DB, string usr_name);
 	string get_crn(sqlite3* LW_DB, string usr_name);
+	string get_dur(sqlite3* LW_DB, string usr_name);
+	string get_etime(sqlite3* LW_DB, string usr_name);
 
 	//destructor
 	~Student();
