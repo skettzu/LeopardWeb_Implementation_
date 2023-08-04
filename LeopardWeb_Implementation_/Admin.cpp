@@ -86,30 +86,78 @@ void Admin::removeCourse(sqlite3* DB, int CRN) {
 		cout << "Removed Course Successfully!" << endl;
 	}
 }
-void Admin::addStudent(sqlite3* DB, string user_info, string user_type) {
-	string insert_student, insert_instructor;
-	if (user_type == "Student") {
-		//Insert into student table
-		insert_student = "INSERT INTO STUDENT VALUES (" + user_info + ");";
-		int exit = sqlite3_exec(DB, insert_student.c_str(), callback, NULL, NULL);	// Execute the Query
-		if (exit != SQLITE_OK) {
-			cout << "Insert Error: " << sqlite3_errmsg(DB) << endl;
+void Admin::addUser(sqlite3* DB) {
+	string insert_user, insert_credential;
+	string user_type;
+	string user_id, user_fname, user_lname, gradyear, hireyear, major, email, p_title, p_dept;
+	//string default_pwd = "12345";
+	cout << "Who do you want to add to the system? (I for Instructor, S for Student): ";
+	cin >> user_type;
+	if (user_type == "s" || user_type == "S") {
+		cout << "Enter student ID: ";
+		cin >> user_id;
+		cout << "Enter student's first name: ";
+		cin >> user_fname;
+		cout << "Enter student's last name: ";
+		cin >> user_lname;
+		cout << "Enter student's expected graduate year: ";
+		cin >> gradyear;
+		cout << "Enter student's major: ";
+		cin >> major;
+		cout << "Enter student's email: ";
+		cin >> email;
+
+		insert_user = "INSERT INTO STUDENT VALUES (" + user_id + ", '" + user_fname + "', '" + user_lname + "', " + gradyear + ", '" + major + "', '" + email + "');";
+		int exit = sqlite3_exec(DB, insert_user.c_str(), callback, NULL, NULL);
+		if (exit == SQLITE_OK) {
+			cout << "Student Added Successfully" << endl;
+			insert_credential = "INSERT INTO CREDENTIAL VALUES (" + user_id + ", '" + email + "', '12345' , '" + user_fname + "', '" + user_lname + "', 'Student');";
+			//cout << insert_credential;
+			int exit_1 = sqlite3_exec(DB, insert_credential.c_str(), callback, NULL, NULL);
+			if (exit_1 == SQLITE_OK) {
+				cout << "Student Added to Credential Successfully	|	Default Password is 12345" << endl;
+			}
+			else cout << "Add Student's Credential Failed" << endl;
 		}
-		else {
-			cout << "Added Course Successfully!" << endl;
-		}
+		else cout << "Add Student Failed" << endl;
 	}
-	else if (user_type == "Instructor") {
-		insert_instructor = "INSERT INTO INSTRUCTOR VALUES (" + user_info + ");";
-		int exit = sqlite3_exec(DB, insert_instructor.c_str(), callback, NULL, NULL);	// Execute the Query
-		if (exit != SQLITE_OK) {
-			cout << "Insert Error: " << sqlite3_errmsg(DB) << endl;
+	else if (user_type == "i" || user_type == "I") {
+		cout << "Enter Instructor's ID: ";
+		cin >> user_id;
+		cout << "Enter instructor's first name: ";
+		cin >> user_fname;
+		cout << "Enter instructor's last name: ";
+		cin >> user_lname;
+		cout << "Enter instructor's title: ";
+		cin.ignore();
+		getline(cin, p_title);
+		cout << "Enter instructor's hire year: ";
+		cin >> hireyear;
+		cout << "Enter instructor's department: ";
+		cin >> p_dept;
+		cout << "Enter instructor's email: ";
+		cin >> email;
+		insert_user = "INSERT INTO INSTRUCTOR VALUES (" + user_id + ", '" + user_fname + "', '" + user_lname + "', '" + p_title + "', " + hireyear + ", '" + p_dept + "', '" + email + "');";
+		//cout << insert_user << endl;
+		int exit = sqlite3_exec(DB, insert_user.c_str(), callback, NULL, NULL);
+		if (exit == SQLITE_OK) {
+			cout << "Instructor Added Successfully" << endl;
+			insert_credential = "INSERT INTO CREDENTIAL VALUES (" + user_id + ", '" + email + "', '12345' , '" + user_fname + "', '" + user_lname + "', 'Instructor');";
+			//cout << insert_credential;
+			int exit_1 = sqlite3_exec(DB, insert_credential.c_str(), callback, NULL, NULL);
+			if (exit_1 == SQLITE_OK) {
+				cout << "Instructor Added to Credential Successfully	|	Default Password is 12345" << endl;
+			}
+			else cout << "Add Instructor's Credential Failed" << endl;
 		}
-		else {
-			cout << "Added Course Successfully!" << endl;
-		}
+		else cout << "Add Instructor Failed" << endl;
+	}
+	else {
+		cout << "Invalid Input" << endl;
+		this->addUser(DB);
 	}
 }
+
 void Admin::removeUser(sqlite3* DB, string in_id) {
 	string remove_user = "DELETE FROM STUDENT WHERE ID = " + in_id + ";";
 	int exit = sqlite3_exec(DB, remove_user.c_str(), callback, NULL, NULL);	// Execute the Query
@@ -123,9 +171,15 @@ void Admin::removeUser(sqlite3* DB, string in_id) {
 			cout << "Removed Successfully!" << endl;
 		}
 	}
-	else {
-		cout << "Removed Successfully!" << endl;
+	else cout << "Remove Successfully" << endl;
+	
+	string remove_credential = "DELETE FROM CREDENTIAL WHERE WID = " + in_id + ";";
+	int exit_1 = sqlite3_exec(DB, remove_credential.c_str(), callback, NULL, NULL);
+	if (exit_1 != SQLITE_OK) {
+		cout << "Remove Credential Failed" << endl;
 	}
+	else cout << "Remove Credential Sucessfully" << endl;
+
 }
 void Admin::searchRoster(sqlite3* DB) {
 	string user_crn;
