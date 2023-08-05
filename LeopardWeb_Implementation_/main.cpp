@@ -794,8 +794,8 @@ int main() {
 			cout << "3. Print Schedule" << endl;
 			cout << "4. Search All Courses" << endl;
 			cout << "5. Search Course Based on Parameter" << endl;
-			cout << "6. Logout" << endl;
-			cout << "7. Check Conflicts" << endl;
+			cout << "6. Check Conflicts" << endl;
+			cout << "7. Logout" << endl;
 			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
@@ -840,6 +840,10 @@ int main() {
 				student.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 6:
+				// Check conflicts
+				student.checkConflict(LW_DB, username);
+				break;
+			case 7:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				student.~Student();
@@ -858,10 +862,6 @@ int main() {
 					cout << "Password: ";
 					cin >> s_pwd;
 				}
-				break;
-			case 7:
-				// Check conflicts
-				student.checkConflict(LW_DB, username);
 				break;
 			case 8: 
 				// Close program
