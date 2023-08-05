@@ -97,7 +97,7 @@ void Instructor::dropCourse(sqlite3* DB, string user_crn, string i_name) {
 	//cout << "Student's dropCourse has been called" << endl;
 	int exit = 1;
 	string delete_course;
-	delete_course = "DELETE FROM INSTRUCTOR_SCHEDULE WHERE CRN = " + user_crn + " AND Instructor = '" + i_name + "'; ";
+	delete_course = "DELETE FROM COURSES WHERE CRN = " + user_crn + " AND Instructor = '" + i_name + "'; ";
 	exit = sqlite3_exec(DB, delete_course.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Delete Failed" << endl;
