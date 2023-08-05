@@ -45,7 +45,7 @@ static int callback(void* data, int argc, char** argv, char** azColName) {
 void Instructor::printSchedule(sqlite3* DB, string i_name) {
 	//cout << "Instructor's printSchedule has been called" << endl;
 	string print_schedule = "SELECT * FROM COURSES WHERE Instructor = '" + i_name + "';";
-	cout << print_schedule << endl;
+	//cout << print_schedule << endl;
 	int exit = sqlite3_exec(DB, print_schedule.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Print Failed" << endl;
@@ -53,25 +53,52 @@ void Instructor::printSchedule(sqlite3* DB, string i_name) {
 	else cout << "Print Success" << endl;
 }
 
-void Instructor::addCourse(sqlite3* DB, string user_crn) {
+void Instructor::addCourse(sqlite3* DB, string i_name) {
 	//cout << "Student's addCourse has been called" << endl;
 	int exit = 1;
-	string insert_s_course;
-	insert_s_course = "INSERT INTO INSTRUCTOR_SCHEDULE SELECT CRN, Title, day, location, duration, sections FROM COURSES WHERE CRN = " + user_crn + ";";
+	string insert_course;
+	string CRN, title, dept, start_time, day, semester, year, credit, location, section, end_time, duration;
+	cout << "Enter CRN of the course: ";
+	cin >> CRN;
+	cout << "Enter Title of the course: ";
+	cin >> title;
+	cout << "Enter department: ";
+	cin >> dept;
+	cout << "Enter day of the course: ";
+	cin >> day;
+	cout << "Enter location: ";
+	cin.ignore();
+	getline(cin, location);
+	cout << "Enter semeseter of the course: ";
+	cin >> semester;
+	cout << "Enter year: ";
+	cin >> year;
+	cout << "Enter credit for the course: ";
+	cin >> credit;
+	cout << "Enter section: ";
+	cin >> section;
+	cout << "Enter start time (integer): ";
+	cin >> start_time;
+	cout << "Enter end time (integer): ";
+	cin >> end_time;
+	cout << "Enter duration of the course: ";
+	cin >> duration;
+	insert_course = "INSERT INTO COURSES VALUES (" + CRN + ", '" + title + "', '" + i_name + "', '" + dept + "', " + start_time + ", '" + day + "', '" + semester + "', " + year + ", " + credit + ", '" + location + "', " + duration + ", " + section + ", " + end_time + ");";
+	//insert_s_course = "INSERT INTO INSTRUCTOR_SCHEDULE SELECT CRN, Title, day, location, duration, sections FROM COURSES WHERE CRN = " + user_crn + ";";
 	//cout << insert_s_course << endl;
-	exit = sqlite3_exec(DB, insert_s_course.c_str(), callback, NULL, NULL);
+	exit = sqlite3_exec(DB, insert_course.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Insert Failed" << sqlite3_errmsg(DB) << endl;
 	}
 	else cout << "Insert Success" << endl;
 }
 
-void Instructor::dropCourse(sqlite3* DB, string user_crn) {
+void Instructor::dropCourse(sqlite3* DB, string user_crn, string i_name) {
 	//cout << "Student's dropCourse has been called" << endl;
 	int exit = 1;
-	string delete_s_course;
-	delete_s_course = "DELETE FROM INSTRUCTOR_SCHEDULE WHERE CRN = " + user_crn + ";";
-	exit = sqlite3_exec(DB, delete_s_course.c_str(), callback, NULL, NULL);
+	string delete_course;
+	delete_course = "DELETE FROM COURSES WHERE CRN = " + user_crn + " AND Instructor = '" + i_name + "'; ";
+	exit = sqlite3_exec(DB, delete_course.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Delete Failed" << endl;
 	}

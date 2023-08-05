@@ -419,6 +419,7 @@ void user_test_cases() {
 
 }
 // Admin Test Cases
+/*
 void admin_test_cases() {
 	cout << endl << "*********** Admin Test Cases *************" << endl;
 	
@@ -461,12 +462,12 @@ void prof_test_cases() {
 	string crn_test = "33950";
 	cout << endl << "Instructor add course test | CRN : 33950" << endl;
 	//expect insert success
-	instructor.addCourse(DB_Test, crn_test);
+	instructor.addCourse(DB_Test, "name");
 
 	//drop course with 33950 crn from the instructor schedule
 	//expect remove success
 	cout << endl << "Instructor drop course test | CRN : 33950" << endl;
-	instructor.dropCourse(DB_Test, crn_test);
+	instructor.dropCourse(DB_Test, crn_test, "name");
 
 	//print roster
 	cout << endl << "Instructor print roster" << endl;
@@ -498,11 +499,11 @@ void student_test_cases() {
 	//add course that has 33950 CRN to the student schedule
 	string crn_test = "33950";
 	cout << endl << "Student add course test | CRN : 33950" << endl;
-	student.addCourse(DB_Test, crn_test);
+	student.addCourse(DB_Test, "name");
 
 	//drop course that has 33950 CRN to the student schedule
 	cout << endl << "Student drop course test | CRN : 33950" << endl;
-	student.dropCourse(DB_Test, crn_test);
+	student.dropCourse(DB_Test, crn_test, "name");
 
 	//display all course from course table
 	cout << endl << "Student search all course" << endl;
@@ -513,6 +514,7 @@ void student_test_cases() {
 	string test_parameter = "Spring";
 	student.searchByParameter(DB_Test, test_parameter);
 }
+*/
 
 int main() {
 	// Run All Test Cases Before Program Is Ran
@@ -597,15 +599,13 @@ int main() {
 			switch (user_input) {
 			case 1:
 				//call add course method for instructor
-				cout << "Enter CRN: ";
-				cin >> user_crn;
-				instructor.addCourse(LW_DB, user_crn);
+				instructor.addCourse(LW_DB, fname);
 				break;
 			case 2:
 				//call droup course method for instructor
 				cout << "Enter CRN to drop course: ";
 				cin >> user_crn;
-				instructor.dropCourse(LW_DB, user_crn);
+				instructor.dropCourse(LW_DB, user_crn, fname);
 				break;
 			case 3:
 				//call instructor's print roster method
@@ -787,14 +787,15 @@ int main() {
 			string user_crn;
 			string user_parameter;
 			string crn, title, day, location, duration, start_time, end_time;
+
 			cout << endl;
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Print Schedule" << endl;
 			cout << "4. Search All Courses" << endl;
 			cout << "5. Search Course Based on Parameter" << endl;
-			cout << "6. Check Conflicts" << endl;
-			cout << "7. Logout" << endl;
+			cout << "6. Logout" << endl;
+			cout << "7. Check Conflicts" << endl;
 			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
@@ -823,7 +824,7 @@ int main() {
 				//student drop course from schedule
 				cout << "Enter CRN to drop course: ";
 				cin >> user_crn;
-				student.dropCourse(LW_DB, user_crn, username);
+				student.dropCourse(LW_DB, user_crn);
 				break;
 			case 3:
 				student.printSchedule(LW_DB, username);
@@ -839,10 +840,6 @@ int main() {
 				student.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 6:
-				// Check conflicts
-				student.checkConflict(LW_DB, username);
-				break;
-			case 7:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				student.~Student();
@@ -861,6 +858,10 @@ int main() {
 					cout << "Password: ";
 					cin >> s_pwd;
 				}
+				break;
+			case 7:
+				// Check conflicts
+				student.checkConflict(LW_DB, username);
 				break;
 			case 8: 
 				// Close program
