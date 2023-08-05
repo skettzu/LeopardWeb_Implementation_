@@ -15,8 +15,8 @@ public:
 
 	// method
 
-	virtual void addCourse(sqlite3* DB);
-	virtual void dropCourse(sqlite3* DB, string user_crn);
+	virtual void addCourse(sqlite3* DB, string i_name);
+	virtual void dropCourse(sqlite3* DB, string user_crn, string i_name);
 	void printRoster(sqlite3* DB);
 	virtual void printSchedule(sqlite3* DB, string i_name);
 

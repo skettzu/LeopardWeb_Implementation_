@@ -53,17 +53,15 @@ void Instructor::printSchedule(sqlite3* DB, string i_name) {
 	else cout << "Print Success" << endl;
 }
 
-void Instructor::addCourse(sqlite3* DB) {
+void Instructor::addCourse(sqlite3* DB, string i_name) {
 	//cout << "Student's addCourse has been called" << endl;
 	int exit = 1;
 	string insert_course;
-	string CRN, title, i_name, dept, start_time, day, semester, year, credit, location, section, end_time, duration;
+	string CRN, title, dept, start_time, day, semester, year, credit, location, section, end_time, duration;
 	cout << "Enter CRN of the course: ";
 	cin >> CRN;
 	cout << "Enter Title of the course: ";
 	cin >> title;
-	cout << "Enter first name: ";
-	cin >> i_name;
 	cout << "Enter department: ";
 	cin >> dept;
 	cout << "Enter day of the course: ";
@@ -95,12 +93,12 @@ void Instructor::addCourse(sqlite3* DB) {
 	else cout << "Insert Success" << endl;
 }
 
-void Instructor::dropCourse(sqlite3* DB, string user_crn) {
+void Instructor::dropCourse(sqlite3* DB, string user_crn, string i_name) {
 	//cout << "Student's dropCourse has been called" << endl;
 	int exit = 1;
-	string delete_s_course;
-	delete_s_course = "DELETE FROM INSTRUCTOR_SCHEDULE WHERE CRN = " + user_crn + ";";
-	exit = sqlite3_exec(DB, delete_s_course.c_str(), callback, NULL, NULL);
+	string delete_course;
+	delete_course = "DELETE FROM INSTRUCTOR_SCHEDULE WHERE CRN = " + user_crn + " AND Instructor = '" + i_name + "'; ";
+	exit = sqlite3_exec(DB, delete_course.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Delete Failed" << endl;
 	}

@@ -498,7 +498,7 @@ void Student::addCourse(sqlite3* DB, string user_crn, string student_name, strin
 	//cout << insert_s_course << endl;
 	exit = sqlite3_exec(DB, insert_s_course.c_str(), callback, NULL, NULL); //execute query
 	if (exit != SQLITE_OK) {
-		cout << "Insert Failed" << endl;
+		cout << "Insert Failed" << sqlite3_errmsg(DB) << endl;
 	}
 	else cout << "Insert Success" << endl;
 }

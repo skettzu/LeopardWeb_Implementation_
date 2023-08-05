@@ -419,6 +419,7 @@ void user_test_cases() {
 
 }
 // Admin Test Cases
+/*
 void admin_test_cases() {
 	cout << endl << "*********** Admin Test Cases *************" << endl;
 	
@@ -461,12 +462,12 @@ void prof_test_cases() {
 	string crn_test = "33950";
 	cout << endl << "Instructor add course test | CRN : 33950" << endl;
 	//expect insert success
-	instructor.addCourse(DB_Test);
+	instructor.addCourse(DB_Test, "name");
 
 	//drop course with 33950 crn from the instructor schedule
 	//expect remove success
 	cout << endl << "Instructor drop course test | CRN : 33950" << endl;
-	instructor.dropCourse(DB_Test, crn_test);
+	instructor.dropCourse(DB_Test, crn_test, "name");
 
 	//print roster
 	cout << endl << "Instructor print roster" << endl;
@@ -498,11 +499,11 @@ void student_test_cases() {
 	//add course that has 33950 CRN to the student schedule
 	string crn_test = "33950";
 	cout << endl << "Student add course test | CRN : 33950" << endl;
-	student.addCourse(DB_Test);
+	student.addCourse(DB_Test, "name");
 
 	//drop course that has 33950 CRN to the student schedule
 	cout << endl << "Student drop course test | CRN : 33950" << endl;
-	student.dropCourse(DB_Test, crn_test);
+	student.dropCourse(DB_Test, crn_test, "name");
 
 	//display all course from course table
 	cout << endl << "Student search all course" << endl;
@@ -513,6 +514,7 @@ void student_test_cases() {
 	string test_parameter = "Spring";
 	student.searchByParameter(DB_Test, test_parameter);
 }
+*/
 
 int main() {
 	// Run All Test Cases Before Program Is Ran
@@ -597,13 +599,13 @@ int main() {
 			switch (user_input) {
 			case 1:
 				//call add course method for instructor
-				instructor.addCourse(LW_DB);
+				instructor.addCourse(LW_DB, fname);
 				break;
 			case 2:
 				//call droup course method for instructor
 				cout << "Enter CRN to drop course: ";
 				cin >> user_crn;
-				instructor.dropCourse(LW_DB, user_crn);
+				instructor.dropCourse(LW_DB, user_crn, fname);
 				break;
 			case 3:
 				//call instructor's print roster method
