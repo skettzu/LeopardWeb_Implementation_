@@ -665,7 +665,7 @@ int main() {
 			string user_parameter;
 			string in_student, in_instructor, user_type, user_id;
 			string user_name;
-			string title, day, location, duration;
+			string title, day, location, duration, start_time, end_time;
 	
 			cout << endl;
 			cout << "1. Add Course from System" << endl;
@@ -675,7 +675,7 @@ int main() {
 			cout << "5. Add Student/Instructor to System" << endl;
 			cout << "6. Remove Student/Instructor from System" << endl;
 			cout << "7. Search and Print Roster" << endl;
-			cout << "8. Link/Unlink Instructor/Student" << endl;
+			cout << "8. Link/Unlink Instructor/Student From Course" << endl;
 			cout << "9. Logout" << endl;
 			cout << "10. Close LeopardWeb" << endl;
 			cin >> user_input;
@@ -711,9 +711,7 @@ int main() {
 				user.addUser(LW_DB);
 				break;
 			case 6:
-				cout << "Enter ID of user you want to remove from the system: ";
-				cin >> user_id;
-				user.removeUser(LW_DB, user_id);
+				user.removeUser(LW_DB);
 				break;
 			case 7:
 				user.searchRoster(LW_DB);
@@ -731,8 +729,10 @@ int main() {
 					day = get_day(LW_DB, user_crn);
 					location = get_location(LW_DB, user_crn);
 					duration = get_duration(LW_DB, user_crn);
+					start_time = get_starttime(LW_DB, user_crn);
+					end_time = get_endtime(LW_DB, user_crn);
 
-					user.link_unlink_s(LW_DB, user_name, user_crn, title, day, location, duration);
+					user.link_unlink_s(LW_DB, user_name, user_crn, title, day, location, duration, start_time, end_time);
 				}
 				else if (user_type == "i" || user_type == "I") {
 					cout << "Enter first name of instructor: ";
