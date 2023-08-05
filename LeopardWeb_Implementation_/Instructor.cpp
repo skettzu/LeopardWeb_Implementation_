@@ -45,7 +45,7 @@ static int callback(void* data, int argc, char** argv, char** azColName) {
 void Instructor::printSchedule(sqlite3* DB, string i_name) {
 	//cout << "Instructor's printSchedule has been called" << endl;
 	string print_schedule = "SELECT * FROM COURSES WHERE Instructor = '" + i_name + "';";
-	cout << print_schedule << endl;
+	//cout << print_schedule << endl;
 	int exit = sqlite3_exec(DB, print_schedule.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Print Failed" << endl;
