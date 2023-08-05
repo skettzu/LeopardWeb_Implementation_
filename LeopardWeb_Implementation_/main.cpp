@@ -575,7 +575,7 @@ int main() {
 			string lname = get_lname(LW_DB, username); //get last name of the instructor
 			int WID = get_WID(LW_DB, username); // get WID of the instructor
 			Instructor instructor(fname, lname, WID); //create an instructor object
-
+			cout << endl;
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Assemble and Print Course Roster" << endl;
@@ -667,7 +667,7 @@ int main() {
 			string user_name;
 			string title, day, location, duration;
 	
-			
+			cout << endl;
 			cout << "1. Add Course from System" << endl;
 			cout << "2. Remove Course from System" << endl;
 			cout << "3. Search All Courses" << endl;
@@ -787,14 +787,14 @@ int main() {
 			string user_crn;
 			string user_parameter;
 			string crn, title, day, location, duration, start_time, end_time;
-
+			cout << endl;
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Print Schedule" << endl;
 			cout << "4. Search All Courses" << endl;
 			cout << "5. Search Course Based on Parameter" << endl;
-			cout << "6. Logout" << endl;
-			cout << "7. Check Conflicts" << endl;
+			cout << "6. Check Conflicts" << endl;
+			cout << "7. Logout" << endl;
 			cout << "8. Close LeopardWeb" << endl;
 			cin >> user_input;
 			if (!cin)
@@ -823,7 +823,7 @@ int main() {
 				//student drop course from schedule
 				cout << "Enter CRN to drop course: ";
 				cin >> user_crn;
-				student.dropCourse(LW_DB, user_crn);
+				student.dropCourse(LW_DB, user_crn, username);
 				break;
 			case 3:
 				student.printSchedule(LW_DB, username);
@@ -839,6 +839,10 @@ int main() {
 				student.searchByParameter(LW_DB, user_parameter);
 				break;
 			case 6:
+				// Check conflicts
+				student.checkConflict(LW_DB, username);
+				break;
+			case 7:
 				//log out	// By Derek
 				cout << "Logged out!" << endl;
 				student.~Student();
@@ -857,10 +861,6 @@ int main() {
 					cout << "Password: ";
 					cin >> s_pwd;
 				}
-				break;
-			case 7:
-				// Check conflicts
-				student.checkConflict(LW_DB, username);
 				break;
 			case 8: 
 				// Close program

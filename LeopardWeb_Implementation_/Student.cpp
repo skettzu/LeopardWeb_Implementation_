@@ -503,11 +503,12 @@ void Student::addCourse(sqlite3* DB, string user_crn, string student_name, strin
 	else cout << "Insert Success" << endl;
 }
 
-void Student::dropCourse(sqlite3* DB, string user_crn) {
+void Student::dropCourse(sqlite3* DB, string user_crn, string s_username) {
 	//cout << "Student's dropCourse has been called" << endl;
 	int exit = 1;
 	string delete_s_course;
-	delete_s_course = "DELETE FROM STUDENT_SCHEDULE WHERE CRN = " + user_crn + ";"; //delete course from schdule query
+	delete_s_course = "DELETE FROM STUDENT_SCHEDULE WHERE CRN = " + user_crn + " and Student = '"+s_username+"'; "; //delete course from schdule query
+	//cout << delete_s_course << endl;
 	exit = sqlite3_exec(DB, delete_s_course.c_str(), callback, NULL, NULL); //execute query
 	//test
 	if (exit != SQLITE_OK) {
@@ -522,7 +523,7 @@ void Student::printSchedule(sqlite3* DB, string student_name) {
 	//print failed
 	//string print_schedule = "SELECT CRN, Class, Day, Location, Duration FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
 	string print_schedule = "SELECT * FROM STUDENT_SCHEDULE WHERE Student = '" + student_name + "';";
-	cout << print_schedule << endl;
+	//cout << print_schedule << endl;
 	exit = sqlite3_exec(DB, print_schedule.c_str(), callback, NULL, NULL);
 	if (exit != SQLITE_OK) {
 		cout << "Print Schedule Failed" << endl;
