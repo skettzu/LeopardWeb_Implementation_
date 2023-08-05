@@ -15,7 +15,8 @@ public:
 
 	// method
 	string get_instructor(sqlite3* LW_DB, string crn);
-	void addCourse(sqlite3* DB, string course);
+	string get_instructor_fname(sqlite3* LW_DB, string crn);
+	void addCourse(sqlite3* DB);
 	void removeCourse(sqlite3* DB, int CRN);
 	void addUser(sqlite3* DB);
 	void removeUser(sqlite3* DB, string in_id);

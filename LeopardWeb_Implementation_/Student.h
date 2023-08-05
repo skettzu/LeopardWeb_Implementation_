@@ -13,7 +13,7 @@ public:
 	Student(string first, string last, int ID);
 	// method
 	virtual void addCourse(sqlite3* DB, string user_crn, string student_name, string in_crn, string in_title, string in_day, string in_location, string in_duration, string start, string end);
-	virtual void dropCourse(sqlite3* DB, string user_crn);
+	virtual void dropCourse(sqlite3* DB, string user_crn, string s_name);
 	virtual void printSchedule(sqlite3* DB, string student_name);
 	void checkConflict(sqlite3* DB, string user_name);
 	string get_day(sqlite3* LW_DB, string usr_name);

@@ -688,12 +688,8 @@ int main() {
 				continue;
 			}
 			switch (user_input) {
-			case 1: // By Derek
-				cout << "What is the CRN, 'Title', 'Instructor', 'Department', Start time, 'Day', 'Semester', year, credit, 'location', duration, sections, end time for your course?" << endl;
-				cout << "Please input each element separated by commas, with '' surrounding the each input that requires" << endl;
-				cin.ignore();
-				getline(cin, in_course);	
-				user.addCourse(LW_DB, in_course);
+			case 1: // By Derek	
+				user.addCourse(LW_DB);
 				break;
 			case 2:
 				int rem_CRN;	// By Derek
@@ -824,7 +820,7 @@ int main() {
 				//student drop course from schedule
 				cout << "Enter CRN to drop course: ";
 				cin >> user_crn;
-				student.dropCourse(LW_DB, user_crn);
+				student.dropCourse(LW_DB, user_crn, username);
 				break;
 			case 3:
 				student.printSchedule(LW_DB, username);

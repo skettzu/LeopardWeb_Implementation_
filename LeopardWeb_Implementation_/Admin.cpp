@@ -63,12 +63,67 @@ string Admin::get_instructor(sqlite3* LW_DB, string crn) {
 	sqlite3_finalize(stmt); // Finalize the statement
 	return result;
 }
+string Admin::get_instructor_fname(sqlite3* LW_DB, string id) {
+	string query = "SELECT NAME FROM INSTRUCTOR WHERE ID = " + id + ";";	// SQL statement selecting User's first name
+	sqlite3_stmt* stmt;
+	int rc = sqlite3_prepare_v2(LW_DB, query.c_str(), -1, &stmt, nullptr); // Prepare the statement
+	if (rc != SQLITE_OK) {
+		cout << "Failed to prepare statement: " << sqlite3_errmsg(LW_DB) << endl;	// Check if statement is prepared correctly
+	}
+	rc = sqlite3_step(stmt); // Execute the statement
+	if (rc != SQLITE_ROW) {
+		cout << "Course Doesn't exist" << endl;
+	}
+	size_t length = strlen(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));  // calculate the length using reinterpret_cast since strlen expects a string
+	int size = length * sizeof(unsigned char);  // calculate the total size
+
+	string result = "";
+	for (int i = 0; i < size; i++) {
+		char temp = sqlite3_column_text(stmt, 0)[i];	// temp char set to each index of char array
+		result = result + temp;	// append temp to resulting string
+	}
+	sqlite3_finalize(stmt); // Finalize the statement
+	return result;
+}
 
 // method
 
-void Admin::addCourse(sqlite3* DB, string course) {
-	string query = "INSERT INTO COURSES VALUES(" + course + ");";	// Create Query to Add to Course to DB
-	int exit = sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);	// Execute the Query
+void Admin::addCourse(sqlite3* DB) {
+	int exit = 1;
+	string CRN, title, dept, start_time, day, semester, year, credit, location, section, end_time, duration, i_name, i_id;
+	cout << "Enter CRN of the course: ";
+	cin >> CRN;
+	cout << "Enter Title of the course: ";
+	cin.ignore();
+	getline(cin, title);
+	cout << "Enter instructor's ID: ";
+	cin >> i_id;
+	i_name = this->get_instructor_fname(DB, i_id);
+	//cout << i_name << endl;
+	cout << "Enter department: ";
+	cin >> dept;
+	cout << "Enter day of the course: ";
+	cin >> day;
+	cout << "Enter location: ";
+	cin.ignore();
+	getline(cin, location);
+	cout << "Enter semeseter of the course: ";
+	cin >> semester;
+	cout << "Enter year: ";
+	cin >> year;
+	cout << "Enter credit for the course: ";
+	cin >> credit;
+	cout << "Enter section: ";
+	cin >> section;
+	cout << "Enter start time (integer): ";
+	cin >> start_time;
+	cout << "Enter end time (integer): ";
+	cin >> end_time;
+	cout << "Enter duration of the course: ";
+	cin >> duration;
+	//string query = "INSERT INTO COURSES VALUES(" + course + ");";	// Create Query to Add to Course to DB
+	string query = "INSERT INTO COURSES VALUES (" + CRN + ", '" + title + "', '" + i_name + "', '" + dept + "', " + start_time + ", '" + day + "', '" + semester + "', " + year + ", " + credit + ", '" + location + "', " + duration + ", " + section + ", " + end_time + ");";
+	exit = sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);	// Execute the Query
 	if (exit != SQLITE_OK) {
 		cout << "Insert Error: " << sqlite3_errmsg(DB) << endl;
 	}
