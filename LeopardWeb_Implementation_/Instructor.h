@@ -15,10 +15,10 @@ public:
 
 	// method
 
-	void addCourse(sqlite3* DB, string user_crn);
-	void dropCourse(sqlite3* DB, string user_crn);
+	virtual void addCourse(sqlite3* DB);
+	virtual void dropCourse(sqlite3* DB, string user_crn);
 	void printRoster(sqlite3* DB);
-	void printSchedule(sqlite3* DB, string i_name);
+	virtual void printSchedule(sqlite3* DB, string i_name);
 
 	// destructor
 	~Instructor();

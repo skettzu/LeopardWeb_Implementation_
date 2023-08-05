@@ -461,7 +461,7 @@ void prof_test_cases() {
 	string crn_test = "33950";
 	cout << endl << "Instructor add course test | CRN : 33950" << endl;
 	//expect insert success
-	instructor.addCourse(DB_Test, crn_test);
+	instructor.addCourse(DB_Test);
 
 	//drop course with 33950 crn from the instructor schedule
 	//expect remove success
@@ -498,7 +498,7 @@ void student_test_cases() {
 	//add course that has 33950 CRN to the student schedule
 	string crn_test = "33950";
 	cout << endl << "Student add course test | CRN : 33950" << endl;
-	student.addCourse(DB_Test, crn_test);
+	student.addCourse(DB_Test);
 
 	//drop course that has 33950 CRN to the student schedule
 	cout << endl << "Student drop course test | CRN : 33950" << endl;
@@ -575,7 +575,7 @@ int main() {
 			string lname = get_lname(LW_DB, username); //get last name of the instructor
 			int WID = get_WID(LW_DB, username); // get WID of the instructor
 			Instructor instructor(fname, lname, WID); //create an instructor object
-
+			cout << endl;
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Assemble and Print Course Roster" << endl;
@@ -597,9 +597,7 @@ int main() {
 			switch (user_input) {
 			case 1:
 				//call add course method for instructor
-				cout << "Enter CRN: ";
-				cin >> user_crn;
-				instructor.addCourse(LW_DB, user_crn);
+				instructor.addCourse(LW_DB);
 				break;
 			case 2:
 				//call droup course method for instructor
@@ -667,7 +665,7 @@ int main() {
 			string user_name;
 			string title, day, location, duration;
 	
-			
+			cout << endl;
 			cout << "1. Add Course from System" << endl;
 			cout << "2. Remove Course from System" << endl;
 			cout << "3. Search All Courses" << endl;
@@ -788,6 +786,7 @@ int main() {
 			string user_parameter;
 			string crn, title, day, location, duration, start_time, end_time;
 
+			cout << endl;
 			cout << "1. Add Course to Semester Schedule" << endl;
 			cout << "2. Remove Course to Semester Schedule" << endl;
 			cout << "3. Print Schedule" << endl;
